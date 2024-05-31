@@ -1,0 +1,16 @@
+/* tailwind.css */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer utilities {
+    .group-main:hover .group-main-hover\:block {
+      display: block;
+    }
+    .inner-group:hover .inner-group-hover\:w-full {
+      width: 100%;
+    }
+    .inner-group:hover .inner-group-hover\:transition-all {
+      transition: all 0.3s ease-in-out;
+    }
+  }
