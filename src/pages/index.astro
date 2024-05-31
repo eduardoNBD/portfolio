@@ -15,26 +15,26 @@ import { events } from '../constants/arrayData';
 <Layout title="Eduardo E. Developer">
 	<main class="px-8 md:px-4 pb-20">
 		<CustomSection class="py-20">  
-			<img class="rounded-full w-12 h-12 mb-10" src="/assets/img/me.jpeg" alt="Logo">
-			<h1 class="text-white text-5xl font-bold flex flex-row gap-x-2 pb-10 justify-between">Hola, Soy Eduardo 
-				<a href="https://www.linkedin.com/in/eduardo-e/" rel="noopener" target="_blank" class="flex items-center justify-center">
+			<img class="rounded-full w-12 h-12 mb-10 mx-auto md:mx-0" src="/assets/img/me.jpeg" alt="Logo">
+			<h1 class="text-white text-3xl md:text-5xl font-bold block sm:flex flex-row gap-x-2 pb-4 md:pb-10 justify-between">Hola, Soy Eduardo 
+				<a href="https://www.linkedin.com/in/eduardo-e/" rel="noopener" target="_blank" class="mt-3 md:mt-0 flex items-center md:justify-center">
 					<Badge color="blue">Disponible para trabajar</Badge> 
 				</a>
 			</h1> 
 			<ContentBorderAnimated>
-				<h2 class="text-xl">
+				<h2 class="text-md sm:text-xl">
 					Soy un programador Full Stack con experiencia en el desarrollo de aplicaciones web utilizando tecnologías modernas y robustas, empleando frameworks de front-end y backend
 				</h2> 
 			</ContentBorderAnimated>
-			<ul class="flex justify-center items-center gap-x-4 mt-10">
-				<li>
+			<ul class="flex-col sm:flex-row flex justify-center items-center gap-x-4 mt-10">
+				<li class="grow md:flex-none w-full mb-2 sm:mb-0 sm:w-auto">
 					<Linkpill href="https://github.com/eduardoNBD" ><Github class="size-8"/>Github</Linkpill>
 				</li>
-				<li>
+				<li class="grow md:flex-none w-full mb-2 sm:mb-0 sm:w-auto">
 					<Linkpill href="https://www.linkedin.com/in/eduardo-e/" rel="noopener" target="_blank"><Linkedin class="size-8"/>Linkedin</Linkpill>
 				</li>
 
-				<li>
+				<li class="grow md:flex-none w-full sm:w-auto">
 					<Linkpill href="mailto:lalo_elma@hotmail.com" rel="noopener" target="_blank"><Mail class="size-8"/>lalo_elma@hotmail.com</Linkpill>
 				</li>
 			</ul> 
