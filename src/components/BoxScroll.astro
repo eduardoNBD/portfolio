@@ -1,0 +1,37 @@
+---
+import '../styles/boxItems.css';
+---
+<section>
+    <div class="box relative flex">
+        <div class="item">1</div>
+        <div class="item">2</div>
+        <div class="item">3</div>
+        <div class="item">4</div>
+        <div class="item">5</div>
+    </div> 
+</section>
+
+<script>
+let box = document.querySelector<HTMLDivElement>(".box");
+ 
+function moveNext(){
+  let items = document.querySelectorAll(".box .item");  
+  box?.appendChild(items[0]);
+}
+
+function movePrev(){ 
+  let items = document.querySelectorAll(".box .item"); 
+  box?.prepend(items[items.length - 1]);
+} 
+
+box?.addEventListener('click', (event: MouseEvent) => {  
+    if (event.currentTarget instanceof HTMLElement) {
+        if((event.currentTarget.offsetWidth/2) > event.pageX)
+        {
+            moveNext();
+        }else{
+            movePrev();	
+        } 
+    }
+});
+</script>

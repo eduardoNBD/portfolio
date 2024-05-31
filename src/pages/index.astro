@@ -5,37 +5,43 @@ import Github from '../components/icons/Github.astro';
 import Linkedin from '../components/icons/Linkedin.astro';
 import Linkpill from '../components/Linkpill.astro'
 import Mail from '../components/icons/Mail.astro';
-import CustomSection from '../components/CustomSection.astro'
+import CustomSection from '../components/CustomSection.astro';
+import ContentBorderAnimated from '../components/ContentBorderAnimated.astro'
+import BoxScroll from '../components/BoxScroll.astro';
+import TimeLine from '../components/TimeLine.astro';
+import { events } from '../constants/arrayData';
 ---
 
 <Layout title="Eduardo E. Developer">
-	<main>
-		<CustomSection class="py-40"> 
+	<main class="px-8 md:px-4 pb-20">
+		<CustomSection class="py-20">  
 			<img class="rounded-full w-12 h-12 mb-10" src="/assets/img/me.jpeg" alt="Logo">
 			<h1 class="text-white text-5xl font-bold flex flex-row gap-x-2 pb-10 justify-between">Hola, Soy Eduardo 
 				<a href="https://www.linkedin.com/in/eduardo-e/" rel="noopener" target="_blank" class="flex items-center justify-center">
 					<Badge color="blue">Disponible para trabajar</Badge> 
 				</a>
-			</h1>
-			<h2 class="text-2xl">
-				Soy un programador Full Stack con experiencia en el desarrollo de aplicaciones web utilizando tecnologías modernas y robustas, empleando frameworks de front-end y backend
-			</h2>   
+			</h1> 
+			<ContentBorderAnimated>
+				<h2 class="text-xl">
+					Soy un programador Full Stack con experiencia en el desarrollo de aplicaciones web utilizando tecnologías modernas y robustas, empleando frameworks de front-end y backend
+				</h2> 
+			</ContentBorderAnimated>
 			<ul class="flex justify-center items-center gap-x-4 mt-10">
 				<li>
-					<Linkpill href="https://github.com/eduardoNBD" ><Github class="size-10"/>Github</Linkpill>
+					<Linkpill href="https://github.com/eduardoNBD" ><Github class="size-8"/>Github</Linkpill>
 				</li>
 				<li>
-					<Linkpill href="https://www.linkedin.com/in/eduardo-e/" rel="noopener" target="_blank"><Linkedin class="size-10"/>Linkedin</Linkpill>
+					<Linkpill href="https://www.linkedin.com/in/eduardo-e/" rel="noopener" target="_blank"><Linkedin class="size-8"/>Linkedin</Linkpill>
 				</li>
 
 				<li>
-					<Linkpill href="mailto:lalo_elma@hotmail.com" rel="noopener" target="_blank"><Mail class="size-10"/>lalo_elma@hotmail.com</Linkpill>
+					<Linkpill href="mailto:lalo_elma@hotmail.com" rel="noopener" target="_blank"><Mail class="size-8"/>lalo_elma@hotmail.com</Linkpill>
 				</li>
 			</ul> 
 		</CustomSection>
-
 		<CustomSection>
-			
-		</CustomSection>
+			<TimeLine events={events} />
+		<CustomSection>
+		<!--<BoxScroll /> -->
 	</main>
 </Layout>
