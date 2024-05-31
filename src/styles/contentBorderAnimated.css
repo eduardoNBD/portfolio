@@ -17,7 +17,6 @@
     padding: 2px;
     animation: animate 6s ease-in-out infinite
 }  
-.contentBordered{
-    background:#13151a ;
+.contentBordered{ 
     padding: 10px 16px;
 } 
