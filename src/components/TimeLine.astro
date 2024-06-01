@@ -1,8 +1,10 @@
 --- 
+import Badge from './Badge.astro';
 export interface Event { 
     title: string;
     date: string; 
     description: Array<string>;
+    places: Array<string>;
 }
 
 export interface Props { 
@@ -11,17 +13,19 @@ export interface Props {
 
 const { events } = Astro.props as Props;
 ---
-<ol class="relative border-s border-gray-200 dark:border-gray-700 before:content-[''] before:absolute before:bottom-0 before:w-[1px] before:bg-[#1e3a8a] before:drop-shadow-[0_0_7px_#3363E7] before:h-[10%] before:animate-height"> 
+<ol class="relative border-s border-gray-200 dark:border-gray-700 before:content-[''] before:absolute before:bottom-0 before:left-[-1.25px] before:w-[2px] before:bg-[#1e3a8a] before:drop-shadow-[0_0_7px_#3363E7] before:h-[0%] before:animate-height"> 
     {events.map( event => {
         return (
-            <li class="ms-6">
+            <li class="ms-6 mb-4">
                 <span class="absolute flex items-center justify-center w-6 h-6 bg-blue-100 rounded-full -start-3 ring-8 ring-white dark:ring-gray-900 dark:bg-blue-900">
-                    <svg class="w-2.5 h-2.5 text-blue-800 dark:text-blue-300"  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-briefcase"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M3 7m0 2a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v9a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2z" /><path d="M8 7v-2a2 2 0 0 1 2 -2h4a2 2 0 0 1 2 2v2" /><path d="M12 12l0 .01" /><path d="M3 13a20 20 0 0 0 18 0" /></svg>
+                    <svg class="w-4 h-4 text-blue-800 dark:text-blue-300"  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-briefcase"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M3 7m0 2a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v9a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2z" /><path d="M8 7v-2a2 2 0 0 1 2 -2h4a2 2 0 0 1 2 2v2" /><path d="M12 12l0 .01" /><path d="M3 13a20 20 0 0 0 18 0" /></svg>
                 </span>
                 <h3 class="mb-1 text-lg font-semibold text-gray-900 dark:text-white">{event.title}</h3>
                 <time class="block mb-2 text-sm font-normal leading-none text-gray-400 dark:text-gray-500 pl-4">{event.date}</time>
                 {event.description.map(p => <p class="text-base font-normal text-gray-500 dark:text-gray-400 my-3 pl-4">{p}</p>)}
-                
+                <div class="flex ml-4 border-t-[0.5px] border-t-gray-600 pt-4">
+                    {event.places.map(p => <Badge color="blue">{p}</Badge>)}
+                </div>
             </li>
         )
     })}                  
