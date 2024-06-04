@@ -1,0 +1,117 @@
+---
+import Angular from '../components/icons/Angular.astro';
+import Logoastro from '../components/icons/Logoastro.astro';
+import Aws from '../components/icons/Aws.astro';
+import Codeigniter from '../components/icons/Codeigniter.astro';
+import Css from '../components/icons/Css.astro';
+import Html from '../components/icons/Html.astro';
+import Java from '../components/icons/Java.astro';
+import Js from '../components/icons/Js.astro';
+import Kotlin from '../components/icons/Kotlin.astro';
+import Laravel from '../components/icons/Laravel.astro';
+import Nextjs from '../components/icons/Nextjs.astro';
+import Nodejs from '../components/icons/Nodejs.astro';
+import Php from '../components/icons/Php.astro';
+import Python from '../components/icons/Python.astro';
+import React from '../components/icons/React.astro';
+import Tailwind from '../components/icons/Tailwind.astro';
+import Vue from '../components/icons/Vue.astro';
+import Wordpress from '../components/icons/Wordpress.astro';
+import Github from '../components/icons/Github.astro';
+import "../styles/sliderTechnologies.css";
+---
+
+<div class="slider overflow-hidden w-full m-auto mb-10">
+    <div class="slider-track">
+        <div class="slider-item flex items-center justify-center p-4">
+            <Angular class="size-16"/>
+        </div>
+        <div class="slider-item flex items-center justify-center p-4">
+            <Logoastro class="size-16" />
+        </div>
+        <div class="slider-item flex items-center justify-center p-4">
+            <Aws class="size-16" />
+        </div>
+        <div class="slider-item flex items-center justify-center p-4">
+            <Codeigniter class="size-16" />
+        </div>
+        <div class="slider-item flex items-center justify-center p-4">
+            <Css class="size-16" />
+        </div>
+        <div class="slider-item flex items-center justify-center p-4">
+            <Github class="size-16 text-gray-600 dark:text-gray-300" />
+        </div>
+        <div class="slider-item flex items-center justify-center p-4">
+            <Html class="size-16" />
+        </div>
+        <div class="slider-item flex items-center justify-center p-4">
+            <Java class="size-16" />
+        </div>
+        <div class="slider-item flex items-center justify-center p-4">
+            <Js class="size-16" />
+        </div>
+        <div class="slider-item flex items-center justify-center p-4">
+            <Kotlin class="size-16" />
+        </div>
+        <div class="slider-item flex items-center justify-center p-4">
+            <Laravel class="size-16" />
+        </div>
+        <div class="slider-item flex items-center justify-center p-4">
+            <Nextjs class="size-16 text-gray-600 dark:text-gray-30" />
+        </div>
+        <div class="slider-item flex items-center justify-center p-4">
+            <Nodejs class="size-16" />
+        </div>
+        <div class="slider-item flex items-center justify-center p-4">
+            <Php class="size-16" />
+        </div>
+        <div class="slider-item flex items-center justify-center p-4">
+            <Python class="size-20" />
+        </div>
+        <div class="slider-item flex items-center justify-center p-4">
+            <React class="size-16" />
+        </div>
+        <div class="slider-item flex items-center justify-center p-4">
+            <Tailwind class="size-20" />
+        </div>
+        <div class="slider-item flex items-center justify-center p-4">
+            <Vue class="size-16" />
+        </div>
+        <div class="slider-item flex items-center justify-center p-4">
+            <Wordpress class="size-16" />
+        </div>
+    </div>
+</div>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const track = document.querySelector<HTMLDivElement>('.slider-track');
+        const items = Array.from(document.querySelectorAll<HTMLDivElement>('.slider-item'));
+        
+        if (!track || items.length === 0) {
+            console.error("Track or items not found.");
+            return;
+        }
+
+        const trackWidth = track.scrollWidth;
+        const itemWidth = items[0].offsetWidth;
+
+        // Duplicar elementos para el efecto infinito
+        items.forEach(item => {
+            const clone = item.cloneNode(true) as HTMLDivElement;
+            track.appendChild(clone);
+        });
+
+        let scrollPosition = 0;
+
+        const animate = () => {
+            scrollPosition -= 1;
+            if (Math.abs(scrollPosition) >= trackWidth / 2) {
+                scrollPosition = 0;
+            }
+            track.style.transform = `translateX(${scrollPosition}px)`;
+            requestAnimationFrame(animate);
+        };
+
+        animate();
+    });
+</script>

@@ -1,0 +1,44 @@
+---
+import Linkedin from "./icons/Linkedin.astro";
+import Mail from "./icons/Mail.astro";
+import Phone from "./icons/Phone.astro";
+---
+<style>
+      .icon-contact{
+        background:  repeating-conic-gradient(from 30deg, #1e3a8a 0%, #1e3a8a 10%, transparent 10%, transparent 50%);
+      } 
+      .icon-contact:before{ 
+        inset:0;
+        background:  repeating-conic-gradient(from 117.5deg, #1e3a8a 0%, #1e3a8a 10%, transparent 10%, transparent 50%);
+      }  
+</style>
+<div class="grid grid-cols-2 mt-20">
+    <div class="col-span-2 sm:col-span-1">
+        <div class="mb-4 flex items-center">
+            <div class="relative p-[8px] flex pointer icon-contact w-12 h-12 before:content-[''] before:absolute">
+                <b class="bg-[#13151a] w-[44px] h-[44px] absolute top-0.5 left-0.5"/>
+                <Phone class="w-[100px] relative " /> 
+            </div>
+            <a href="tel:+523221564984" class="ml-4 font-bold">322 - 156 - 4984</a>
+        </div>
+        <div class="mb-4 flex items-center">
+            <div class="relative p-[8px] flex pointer icon-contact w-12 h-12 before:content-[''] before:absolute">
+                <b class="bg-[#13151a] w-[44px] h-[44px] absolute top-0.5 left-0.5"/>
+                <Mail class="w-[120px] relative " /> 
+            </div>
+            <a href="mailto:lalo_elma@hotmail.com" class="ml-4 font-bold">lalo_elma@hotmail.com</a>
+        </div>
+        <div class="mb-4 flex items-center">
+            <div class="relative p-[8px] flex pointer icon-contact w-12 h-12 before:content-[''] before:absolute">
+                <b class="bg-[#13151a] w-[44px] h-[44px] absolute top-0.5 left-0.5"/>
+                <Linkedin class="w-[120px] relative " /> 
+            </div>
+            <a href="</span>" class="ml-4 font-bold">Eduardo-e</a>
+        </div> 
+    </div>
+    <div class="col-span-2 sm:col-span-1">
+        <div>
+
+        </div>
+    </div>
+</div>

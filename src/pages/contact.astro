@@ -1,0 +1,19 @@
+---
+import Layout from '../layouts/Layout.astro'; 
+import CustomSection from '../components/CustomSection.astro'; 
+import ContactForm from '../components/ContactForm.astro';
+---
+
+<Layout title="Eduardo E. Developer" route="/projects">
+	<main class="px-8 md:px-4 pb-20"> 
+		<CustomSection>
+			<h1 class="text-gray-600 dark:text-white text-3xl md:text-5xl font-bold block pb-4 md:pb-10">Contáctame</h1>  
+			<h2 class="text-md sm:text-xl text-gray-600 dark:text-white ">
+				Estoy encantado de que estés interesado en ponerte en contacto conmigo. Valoro cada interacción y me esfuerzo por brindar una comunicación directa y personalizada. Ya sea que tengas una pregunta, una propuesta de colaboración, o simplemente quieras conocer más sobre mi trabajo, estoy aquí para ayudarte.
+			</h2> 
+		</CustomSection> 
+        <CustomSection>
+            <ContactForm /> 
+        </CustomSection>
+	</main>
+</Layout>
