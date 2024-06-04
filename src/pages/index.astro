@@ -9,10 +9,11 @@ import CustomSection from '../components/CustomSection.astro';
 import ContentBorderAnimated from '../components/ContentBorderAnimated.astro'
 import BoxScroll from '../components/BoxScroll.astro';
 import TimeLine from '../components/TimeLine.astro';
-import { events } from '../constants/arrayData';
+import ProjectsContent from '../components/ProjectsContent.astro';
+import { events, projects } from '../constants/arrayData';
 ---
 
-<Layout title="Eduardo E. Developer">
+<Layout title="Eduardo E. Developer" route="/">
 	<main class="px-8 md:px-4 pb-20">
 		<CustomSection class="pb-14">  
 			<img class="rounded-full w-12 h-12 mb-10 mx-auto md:mx-0" src="/assets/img/me.jpeg" alt="Logo">
@@ -29,28 +30,39 @@ import { events } from '../constants/arrayData';
 			<ul class="flex justify-center items-center gap-x-4 mt-10">
 				<li>
 					<Linkpill href="https://github.com/eduardoNBD" >
-						<Github class="text-gray-600 dark:text-gray-200 size-8"/>
-						<span class="hidden sm:inline-block">Github</span>
+						<Github class="size-8"/>
+						<span class="hidden sm:inline-block font-bold dark:font-normal">Github</span>
 					</Linkpill>
 				</li>
 				<li>
 					<Linkpill href="https://www.linkedin.com/in/eduardo-e/" rel="noopener" target="_blank">
-						<Linkedin class="text-gray-600 dark:text-gray-200 size-8"/>
-						<span class="hidden sm:inline-block">Linkedin</span>
+						<Linkedin class="size-8"/>
+						<span class="hidden sm:inline-block font-bold dark:font-normal">Linkedin</span>
 					</Linkpill>
 				</li>
 
 				<li>
 					<Linkpill href="mailto:lalo_elma@hotmail.com" rel="noopener" target="_blank">
-						<Mail class="text-gray-600 dark:text-gray-200 size-8"/>
-						<span class="hidden sm:inline-block">lalo_elma@hotmail.com</span>
+						<Mail class="size-8"/>
+						<span class="hidden sm:inline-block font-bold dark:font-normal">lalo_elma@hotmail.com</span>
 					</Linkpill>
 				</li>
 			</ul> 
 		</CustomSection>
 		<CustomSection>
+			<h3 class="text-2xl relative text-gray-600 dark:text-white font-bold mb-10">
+				Experiencia laboral
+				<span class="absolute top-8 left-0 w-20 h-[2px] mt-2 bg-blue-600"></span>
+			</h3>
 			<TimeLine events={events} />
 		<CustomSection>
+		<CustomSection class="pt-14">
+			<h3 class="text-2xl relative text-gray-600 dark:text-white font-bold mb-8">
+				Ultimo Projecto
+				<span class="absolute top-8 left-0 w-20 h-[2px] mt-2 bg-blue-600"></span>
+			</h3>
+			<ProjectsContent projects={[projects[0]]} />
+		</CustomSection>
 		<!--<BoxScroll /> -->
 	</main>
 </Layout>

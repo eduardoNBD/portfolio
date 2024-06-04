@@ -1,6 +1,7 @@
 ---
-
 import ToggleMode from './ToggleMode.astro';
+
+const { route } = Astro.props;
 ---
 <header class="w-full lg:w-[1440px] mx-auto">
     <nav class="border-gray-200">
@@ -31,33 +32,21 @@ import ToggleMode from './ToggleMode.astro';
             </div>
             <div id="main-menu" class="bg-[#fafafa] dark:bg-[#13151a] absolute sm:static z-20 items-center left-0 top-16 justify-between hidden w-full md:flex md:w-auto md:order-1 opacity-100 pointer-events-auto transition-all duration-300">
                 <ul class="flex flex-col mt-4 font-medium md:flex-row md:mt-0 md:space-x-8 rtl:space-x-reverse pb-4 mx-4">
-                    <li class="text-gray-600 dark:text-white relative pl-4 group py-2.5 px-2.5 hover:text-blue-600 font-bold border-b-2 border-gray-500 sm:border-0">
+                    <li class={`text-gray-600 dark:text-white relative pl-4 group py-2.5 px-2.5 ${route == "/" ? "text-blue-600" :"hover:text-blue-600"} font-bold border-b-2 border-gray-500 sm:border-0`}>
                         <a href="/">
-                            <span class="absolute bottom-0 left-0 w-0 h-[1px] md:h-0.5 bg-gray-500 md:bg-blue-600 group-hover:w-full group-hover:transition-all"></span>
+                            <span class={`absolute bottom-0 left-0 w-0 h-[1px] md:h-0.5 bg-gray-500 ${route == "/" ? "w-full" :"group-hover:w-full"} md:bg-blue-600 group-hover:transition-all`}></span>
                             Inicio
                         </a>
-                    </li>
-                    <li class="text-gray-600 dark:text-white relative pl-4 group py-2.5 px-2.5 hover:text-blue-600 font-bold border-b-2 border-gray-500 sm:border-0">
-                        <a href="/">
-                            <span class="absolute bottom-0 left-0 w-0 h-[1px] md:h-0.5 bg-gray-500 md:bg-blue-600 group-hover:w-full group-hover:transition-all"></span>
-                            Experiencia
-                        </a>
-                    </li>
-                    <li class="text-gray-600 dark:text-white relative pl-4 group py-2.5 px-2.5 hover:text-blue-600 font-bold border-b-2 border-gray-500 sm:border-0">
-                        <a href="/">
-                            <span class="absolute bottom-0 left-0 w-0 h-[1px] md:h-0.5 bg-gray-500 md:bg-blue-600 group-hover:w-full group-hover:transition-all"></span>
-                            Sobre mí
-                        </a>
-                    </li>
-                    <li class="text-gray-600 dark:text-white relative pl-4 group py-2.5 px-2.5 hover:text-blue-600 font-bold border-b-2 border-gray-500 sm:border-0">
-                        <a href="/">
-                            <span class="absolute bottom-0 left-0 w-0 h-[1px] md:h-0.5 bg-gray-500 md:bg-blue-600 group-hover:w-full group-hover:transition-all"></span>
+                    </li>  
+                    <li class={`text-gray-600 dark:text-white relative pl-4 group py-2.5 px-2.5 ${route == "/projects" ? "text-blue-600" :"hover:text-blue-600"} font-bold border-b-2 border-gray-500 sm:border-0`}>
+                        <a href="/projects">
+                            <span class={`absolute bottom-0 left-0 w-0 h-[1px] md:h-0.5 bg-gray-500 ${route == "/projects" ? "w-full" : "group-hover:w-full"} md:bg-blue-600 group-hover:transition-all`}></span>
                             Proyectos
                         </a>
                     </li>
-                    <li class="text-gray-600 dark:text-white relative pl-4 group py-2.5 px-2.5 hover:text-blue-600 font-bold border-b-2 border-gray-500 sm:border-0">
+                    <li class={`text-gray-600 dark:text-white relative pl-4 group py-2.5 px-2.5 ${route == "/contact" ? "text-blue-600" :"hover:text-blue-600"} font-bold border-b-2 border-gray-500 sm:border-0`}>
                         <a href="/">
-                            <span class="absolute bottom-0 left-0 w-0 h-[1px] md:h-0.5 bg-gray-500 md:bg-blue-600 group-hover:w-full group-hover:transition-all"></span>
+                            <span class={`absolute bottom-0 left-0 w-0 h-[1px] md:h-0.5 bg-gray-500 ${route == "/contact" ? "w-full" : "group-hover:w-full"} md:bg-blue-600 group-hover:transition-all`}></span>
                             Contacto
                         </a>
                     </li>

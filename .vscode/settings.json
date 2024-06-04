@@ -1,0 +1,7 @@
+{
+    "ltex.additionalRules.languageModel": "es",
+    "ltex.additionalRules.enablePickyRules": false,
+    "cSpell.language": "es",
+    "cSpell.dictionaries": ["spanish"],
+    "cSpell.allowCompoundWords": true
+}
