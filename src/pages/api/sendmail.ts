@@ -19,8 +19,7 @@ export const POST: APIRoute = async ({ request }) => {
         user: import.meta.env.MAIL_USERNAME,
         pass: import.meta.env.MAIL_PASSWORD,
       },
-      port: import.meta.env.MAIL_PORT, 
-      secure: false,
+      port: import.meta.env.MAIL_PORT,  
     });
 
     const emailResponse = await smtpTransport.sendMail({
