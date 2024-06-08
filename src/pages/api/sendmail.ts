@@ -30,7 +30,7 @@ export const POST: APIRoute = async ({ request }) => {
     });
 
     return new Response(
-      JSON.stringify({ status: 1, message: 'Correo electrónico enviado exitosamente ' }),
+      JSON.stringify({ status: 1, message: 'Correo electrónico enviado exitosamente '+JSON.stringify(emailResponse)}),
       { status: 200 }
     );
   } catch (error) { 
