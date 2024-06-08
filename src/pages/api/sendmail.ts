@@ -22,8 +22,7 @@ export const POST: APIRoute = async ({ request }) => {
       },*/
       service: "Gmail",
       host: "smtp.gmail.com",
-      port: 465,
-      secure: true,
+      port: 587, 
       auth: {
         user: "nbadtzdemort@gmail.com",
         pass: "akatsukics2",
