@@ -1,5 +1,6 @@
-import type { APIRoute } from 'astro'
-import { createTransport } from 'nodemailer'
+import type { APIRoute } from 'astro';
+import { createTransport } from 'nodemailer';
+import { google } from 'googleapis'; 
 
 export const POST: APIRoute = async ({ request }) => {
   try {
@@ -7,25 +8,37 @@ export const POST: APIRoute = async ({ request }) => {
 
     if (!name || !email || !subject || !message || !phone) {
       return new Response(
-        JSON.stringify({ status: 0, message: 'Todos los campos son obligatorios'   }),
+        JSON.stringify({ status: 0, message: 'Todos los campos son obligatorios' }),
         { status: 400 }
       );
     }
 
+    const oauth2Client = new google.auth.OAuth2(
+      import.meta.env.GMAIL_CLIENT_ID,
+      import.meta.env.GMAIL_CLIENT_SECRET,
+      'https://developers.google.com/oauthplayground'
+    );
+
+    oauth2Client.setCredentials({
+      refresh_token: import.meta.env.GMAIL_REFRESH_TOKEN
+    });
+
+    const accessTokenResponse = await oauth2Client.getAccessToken();
+    const accessToken = accessTokenResponse.token;
+
+    if (!accessToken) {
+      throw new Error('No se pudo obtener el access token');
+    }
+
     const smtpTransport = createTransport({
-      /*host: import.meta.env.MAIL_HOST,
-      port: import.meta.env.MAIL_PORT,
-      secure: false, 
+      service: 'gmail',
       auth: {
-        user: import.meta.env.MAIL_USERNAME,
-        pass: import.meta.env.MAIL_PASSWORD,
-      },*/
-      service: "Gmail",
-      host: "smtp.gmail.com",
-      port: 587, 
-      auth: {
-        user: "nbadtzdemort@gmail.com",
-        pass: "akatsukics2",
+        type: 'OAuth2',
+        user: 'nbadtzdemort@gmail.com',
+        clientId: import.meta.env.GMAIL_CLIENT_ID,
+        clientSecret: import.meta.env.GMAIL_CLIENT_SECRET,
+        refreshToken: import.meta.env.GMAIL_REFRESH_TOKEN,
+        accessToken: accessToken,
       },
     });
 
@@ -37,12 +50,12 @@ export const POST: APIRoute = async ({ request }) => {
     });
 
     return new Response(
-      JSON.stringify({ status: 1, message: 'Correo electrónico enviado exitosamente '+JSON.stringify(emailResponse)}),
+      JSON.stringify({ status: 1, message: 'Correo electrónico enviado exitosamente', emailResponse: JSON.stringify(emailResponse) }),
       { status: 200 }
     );
-  } catch (error) { 
+  } catch (error) {
     return new Response(
-      JSON.stringify({ status: 0, message: 'Hubo un error al enviar el correo electrónico ', error: JSON.stringify(error), imports: import.meta.env.MAIL_HOST+"-"+import.meta.env.MAIL_USERNAME+"-"+import.meta.env.MAIL_PASSWORD+"-"+import.meta.env.MAIL_PORT }),
+      JSON.stringify({ status: 0, message: 'Hubo un error al enviar el correo electrónico', error: JSON.stringify(error) }),
       { status: 500 }
     );
   }
