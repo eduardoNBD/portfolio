@@ -6,7 +6,6 @@ export const POST: APIRoute = async ({ request }) => {
     const { name, email, subject, phone, message } = await request.json();
 
     if (!name || !email || !subject || !message || !phone) {
-      
       return new Response(
         JSON.stringify({ status: 0, message: 'Todos los campos son obligatorios'   }),
         { status: 400 }
@@ -20,7 +19,7 @@ export const POST: APIRoute = async ({ request }) => {
         pass: import.meta.env.MAIL_PASSWORD,
       },
       port: import.meta.env.MAIL_PORT,
-      secure: true,
+      secure: false,
       tls: {
         rejectUnauthorized: false
       },
