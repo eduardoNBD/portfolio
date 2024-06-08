@@ -13,17 +13,25 @@ export const POST: APIRoute = async ({ request }) => {
     }
 
     const smtpTransport = createTransport({
-      host: import.meta.env.MAIL_HOST,
+      /*host: import.meta.env.MAIL_HOST,
       port: import.meta.env.MAIL_PORT,
       secure: false, 
       auth: {
         user: import.meta.env.MAIL_USERNAME,
         pass: import.meta.env.MAIL_PASSWORD,
+      },*/
+      service: "Gmail",
+      host: "smtp.gmail.com",
+      port: 465,
+      secure: true,
+      auth: {
+        user: "nbadtzdemort@gmail.com",
+        pass: "akatsukics2",
       },
     });
 
     const emailResponse = await smtpTransport.sendMail({
-      from: 'lalo_elma@hotmail.com',
+      from: 'nbadtzdemort@gmail.com',
       to: 'lalo_elma@hotmail.com',
       subject: `Nuevo mensaje de contacto: ${subject}`,
       text: `From: ${email} \nNombre: ${name}\nTeléfono: ${phone}\nCorreo: ${email}\nMensaje: ${message}`,
