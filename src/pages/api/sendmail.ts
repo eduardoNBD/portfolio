@@ -21,7 +21,7 @@ export const POST: APIRoute = async ({ request }) => {
       port: import.meta.env.MAIL_PORT,
       secure: false,
       tls: {
-        rejectUnauthorized: false
+        ciphers:'SSLv3'
       },
       socketTimeout: 60000,
       connectionTimeout: 60000  
