@@ -14,17 +14,12 @@ export const POST: APIRoute = async ({ request }) => {
 
     const smtpTransport = createTransport({
       host: import.meta.env.MAIL_HOST,
+      port: import.meta.env.MAIL_PORT,
+      secure: false, 
       auth: {
         user: import.meta.env.MAIL_USERNAME,
         pass: import.meta.env.MAIL_PASSWORD,
       },
-      port: import.meta.env.MAIL_PORT,
-      secure: false,
-      tls: {
-        ciphers:'SSLv3'
-      },
-      socketTimeout: 60000,
-      connectionTimeout: 60000  
     });
 
     const emailResponse = await smtpTransport.sendMail({
