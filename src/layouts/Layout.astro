@@ -2,31 +2,41 @@
 import Header from '../components/Header.astro'; 
 import Footer from '../components/Footer.astro'; 
 import '@fontsource-variable/onest'; 
-import '../styles/tailwind.css';
+import '../styles/tailwind.css'; 
 
 interface Props {
 	title: string;
 	route: string;
+	description:string;
 }
 
-const { title, route } = Astro.props;
+const { title, route, description} = Astro.props;
 ---
 
 <!doctype html>
 <html lang="en">
 	<head>
 		<meta charset="UTF-8" />
-		<meta name="description" content="Astro description" />
-		<meta name="viewport" content="width=device-width" />
+		<meta name="description" content={description} />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" /> 
 		<meta name="generator" content={Astro.generator} />
-		<title>{title}</title>
+		<title>{title}</title>   
 	</head>
-	<body class="bg-[#fafafa] dark:bg-[#13151a]"> 
+	<body class="bg-[#F3F5F9] dark:bg-[#13151a]"> 
 		<Header route={route}/>
 		<slot />
 		<Footer/>
+		<div id="loader" class="flex justify-center items-center h-full w-full top-0 absolute bg-[#ffffffaa] left-0 z-40">
+            <div class="rounded-full h-20 w-20 bg-violet-800 animate-ping"></div>
+        </div>
 	</body>
+	<script is:inline>
+		function showLoader(){document.querySelector("#loader").classList.remove("hidden");}function hideLoader(){document.querySelector("#loader").classList.add("hidden");}
+		onload = (event) => {
+			document.querySelector("#loader").classList.add("hidden");;
+		};
+	</script>
 </html>
 <style is:global>
 	:root { 

@@ -14,7 +14,12 @@
     "@astrojs/tailwind": "^5.1.0",
     "@fontsource-variable/onest": "^5.0.4",
     "astro": "^4.9.2",
+    "dotenv": "^16.4.5",
+    "nodemailer": "^6.9.13",
     "tailwindcss": "^3.4.3",
     "typescript": "^5.4.5"
+  },
+  "devDependencies": {
+    "@types/nodemailer": "^6.4.15"
   }
 }

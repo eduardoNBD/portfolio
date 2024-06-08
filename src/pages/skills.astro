@@ -1,0 +1,114 @@
+---
+import CustomSection from '../components/CustomSection.astro';
+import Apps from '../components/icons/Apps.astro';
+import Aws from '../components/icons/Aws.astro';
+import Github from '../components/icons/Github.astro';
+import Server from '../components/icons/Server.astro';
+import Terminal from '../components/icons/Terminal.astro';
+import Layout from '../layouts/Layout.astro';
+---
+<Layout 
+        title="Habilidades" 
+        route="/skills"
+        description=''>
+	<main class="px-8 md:px-4 pb-20">
+        <CustomSection>
+			<h1 class="text-gray-800 dark:text-white text-5xl font-bold block pb-4 md:pb-10">Habilidades</h1>  
+			<h2 class="text-md sm:text-xl text-gray-800 dark:text-white ">
+				Mis competencias y conocimientos especializados abarcan diversas áreas de la tecnología. Desde el dominio en el manejo de lenguajes de programación hasta la administración de sistemas y la gestión de proyectos, estas habilidades son la base de mi experiencia y contribuyen a mi capacidad para enfrentar desafíos complejos y ofrecer soluciones innovadoras. A continuación, encontrarás una lista de mis habilidades clave, respaldadas por mi experiencia práctica y continua formación profesional.
+			</h2> 
+		</CustomSection>
+        <CustomSection class="mt-10">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+                <div class="mb-4">
+                    <div class="flex items-center">
+                        <div class="relative p-[8px] flex pointer icon-contact dark:icon-contact-dark w-12 h-12">
+                            <b class="bg-[#F3F5F9] dark:bg-[#13151a] w-[44px] h-[44px] absolute top-0.5 left-0.5"/>
+                            <Server class="w-[120px] relative text-gray-800 dark:text-gray-200 " /> 
+                        </div>
+                        <div>
+                            <h2 class="relative ml-4 font-bold text-gray-800 dark:text-gray-200 border-gray-400 hover:border-[#3363E7] hover:text-[#1e3a8a]">
+                                Administración de servidores
+                                <span class="absolute top-5 left-0 w-24 h-[2px] mt-2 bg-blue-400 dark:bg-blue-900"></span>
+                            </h2>
+                        </div>
+                    </div>
+                    <p class="h-full text-gray-800 dark:text-[#fafafa] text-pretty pl-4 pt-7 -mt-5 ml-[23px] border-l-2 border-blue-400 dark:border-blue-900">
+                        Configuración, mantenimiento y seguridad de servidores Linux. Capaz de gestionar y optimizar el rendimiento del 
+                        servidor, implementar medidas de seguridad, y resolver problemas técnicos complejos. <br><br>
+                        Con habilidades de implementación de servidores Voip, web y microservicios.
+                    </p>
+                </div> 
+                <div class="mb-4">
+                    <div class="flex items-center">
+                        <div class="relative p-[10px] flex pointer icon-contact dark:icon-contact-dark w-12 h-12">
+                            <b class="bg-[#F3F5F9] dark:bg-[#13151a] w-[44px] h-[44px] absolute top-0.5 left-0.5"/>
+                            <Apps class="w-[150px] relative text-gray-800 dark:text-gray-200 " /> 
+                        </div>
+                        <div>
+                            <h2 class="relative ml-4 font-bold text-gray-800 dark:text-gray-200 border-gray-400 hover:border-[#3363E7] hover:text-[#1e3a8a]">
+                                Aplicaciones Mobiles y Web
+                                <span class="absolute top-5 left-0 w-24 h-[2px] mt-2 bg-blue-400 dark:bg-blue-900"></span>
+                            </h2>
+                        </div>
+                    </div>
+                    <p class="h-full text-gray-800 dark:text-[#fafafa] text-pretty pl-4 pt-8 -mt-5 ml-[23px] border-l-2 border-blue-400 dark:border-blue-900">
+                        Especializado en la gestión, despliegue y optimización de aplicaciones móviles y web asi como la disponibilidad, seguridad y su rendimiento. 
+                        Capaz de la implementación de actualizaciones, resolución de problemas técnicos y análisis de rendimiento para garantizar una experiencia de usuario fluida y eficiente.
+                    </p>
+                </div>  
+                <div class="mb-4">
+                    <div class="flex items-center">
+                        <div class="relative p-[8px] flex pointer icon-contact dark:icon-contact-dark w-12 h-12">
+                            <b class="bg-[#F3F5F9] dark:bg-[#13151a] w-[44px] h-[44px] absolute top-0.5 left-0.5"/>
+                            <Github class="w-[140px] relative text-gray-800 dark:text-gray-200 " /> 
+                        </div>
+                        <div>
+                            <h2 class="relative ml-4 font-bold text-gray-800 dark:text-gray-200 border-gray-400 hover:border-[#3363E7] hover:text-[#1e3a8a]">
+                                Gestión de Versiones
+                                <span class="absolute top-5 left-0 w-24 h-[2px] mt-2 bg-blue-400 dark:bg-blue-900"></span>
+                            </h2>
+                        </div>
+                    </div>
+                    <p class="h-full text-gray-800 dark:text-[#fafafa] text-pretty pl-4 pt-7 -mt-5 ml-[23px] border-l-2 border-blue-400 dark:border-blue-900 ">
+                        Experimentado en el uso de Git para controlar y gestionar el versionado de código fuente de manera eficiente y colaborativa. <br><br> Capaz en la creación, fusión y resolución de conflictos de ramas, así como en la gestión de repositorios remotos en plataformas como GitHub y GitLab.
+                    </p>
+                </div> 
+                <div class="mb-4">
+                    <div class="flex items-center">
+                        <div class="relative p-[8px] flex pointer icon-contact dark:icon-contact-dark w-12 h-12">
+                            <b class="bg-[#F3F5F9] dark:bg-[#13151a] w-[44px] h-[44px] absolute top-0.5 left-0.5"/>
+                            <Terminal class="w-[120px] relative text-gray-800 dark:text-gray-200 " /> 
+                        </div>
+                        <div>
+                            <h2 class="relative ml-4 font-bold text-gray-800 dark:text-gray-200 border-gray-400 hover:border-[#3363E7] hover:text-[#1e3a8a]">
+                                Backend
+                                <span class="absolute top-5 left-0 w-24 h-[2px] mt-2 bg-blue-400 dark:bg-blue-900"></span>
+                            </h2>
+                        </div>
+                    </div>
+                    <p class="h-full text-gray-800 dark:text-[#fafafa] text-pretty pl-4 pt-7 -mt-5 ml-[23px] border-l-2 border-blue-400 dark:border-blue-900 ">
+                        Especializado en la creación y mantenimiento de la lógica del lado del servidor, bases de datos y la integración de sistemas con lenguajes como Python, Java, y Node.js. <br><br> Capaz de asegurar la eficiencia, escalabilidad y seguridad de las aplicaciones, y realizar integración de APIs y servicios web.
+                    </p>
+                </div> 
+                <div class="mb-4">
+                    <div class="flex items-center">
+                        <div class="relative p-[8px] flex pointer icon-contact dark:icon-contact-dark w-12 h-12">
+                            <b class="bg-[#F3F5F9] dark:bg-[#13151a] w-[44px] h-[44px] absolute top-0.5 left-0.5"/>
+                            <Aws class="w-[120px] relative text-gray-800 dark:text-gray-200 " /> 
+                        </div>
+                        <div>
+                            <h2 class="relative ml-4 font-bold text-gray-800 dark:text-gray-200 border-gray-400 hover:border-[#3363E7] hover:text-[#1e3a8a]">
+                                Aws
+                                <span class="absolute top-5 left-0 w-24 h-[2px] mt-2 bg-blue-400 dark:bg-blue-900"></span>
+                            </h2>
+                        </div>
+                    </div>
+                    <p class="h-full text-gray-800 dark:text-[#fafafa] text-pretty pl-4 pt-7 -mt-5 ml-[23px] border-l-2 border-blue-400 dark:border-blue-900 ">
+                        Capaz de implementar tecnologías de Amazon Web Services, como EC2 y S3, asi como sus reglas de seguridad y verificación de rendimiento
+                    </p>
+                </div> 
+            </div>
+        </CustomSection>
+    </main>
+</Layout>

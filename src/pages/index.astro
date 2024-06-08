@@ -12,19 +12,23 @@ import TimeLine from '../components/TimeLine.astro';
 import ProjectsContent from '../components/ProjectsContent.astro';
 import { events, projects } from '../constants/arrayData';
 import SliderTechnologies from '../components/SliderTechnologies.astro';
+import Cv from '../components/icons/Cv.astro';
 ---
 
-<Layout title="Eduardo E. Developer" route="/">
+<Layout 
+		title="Eduardo E. Developer" 
+		route="/"
+		description='Soy José Eduardo Elvira Macias, soy un programador Full Stack con amplia experiencia en el desarrollo de aplicaciones web y mobiles utilizando tecnologías modernas y sólidas.'>
 	<main class="px-8 md:px-4 pb-20">
 		<CustomSection class="pb-14">  
 			<img class="rounded-full w-12 h-12 mb-10 mx-auto md:mx-0" src="/assets/img/me.jpeg" alt="Logo">
-			<h1 class="text-gray-600 dark:text-white text-3xl md:text-5xl font-bold block sm:flex flex-row gap-x-2 pb-4 md:pb-10 justify-between">Hola, Soy Eduardo 
+			<h1 class="text-gray-800 dark:text-white text-3xl md:text-5xl font-bold block sm:flex flex-row gap-x-2 pb-4 md:pb-10 justify-between">Hola, Soy Eduardo 
 				<a href="https://www.linkedin.com/in/eduardo-e/" rel="noopener" target="_blank" class="mt-3 md:mt-0 flex items-center md:justify-center">
 					<Badge color="blue">Disponible para trabajar</Badge> 
 				</a>
 			</h1> 
 			<ContentBorderAnimated>
-				<h2 class="text-md sm:text-xl text-gray-600 dark:text-white ">
+				<h2 class="text-md sm:text-xl text-gray-800 dark:text-white ">
 					Soy un programador Full Stack con amplia experiencia en el desarrollo de aplicaciones web y mobiles utilizando tecnologías modernas y sólidas. Domino frameworks avanzados tanto de front-end como de back-end, lo que me permite crear soluciones integrales, eficientes y escalables para diversas necesidades empresariales.
 				</h2> 
 			</ContentBorderAnimated>
@@ -36,30 +40,51 @@ import SliderTechnologies from '../components/SliderTechnologies.astro';
 					</Linkpill>
 				</li>
 				<li>
-					<Linkpill href="https://www.linkedin.com/in/eduardo-e/" rel="noopener" target="_blank">
+					<Linkpill href="https://www.linkedin.com/in/eduardo-e/">
 						<Linkedin class="size-8"/>
 						<span class="hidden sm:inline-block font-bold dark:font-normal">Linkedin</span>
 					</Linkpill>
-				</li>
-
+				</li> 
 				<li>
-					<Linkpill href="mailto:lalo_elma@hotmail.com" rel="noopener" target="_blank">
+					<Linkpill href="mailto:lalo_elma@hotmail.com">
 						<Mail class="size-8"/>
 						<span class="hidden sm:inline-block font-bold dark:font-normal">lalo_elma@hotmail.com</span>
 					</Linkpill>
+				</li> 
+				<li>
+					<a href="./assets/files/cv.pdf" 
+						class="flex justify-center items-center gap-x-2 border px-2 py-1 rounded-md transition text-gray-200 dark:text-gray-200 border-blue-900 dark:border-white
+							bg-blue-900 dark:bg-[transparent]
+							dark:hover:drop-shadow-[0_0_5px_#3363E7] 
+							dark:hover:border-[#1e3a8a]
+							hover:drop-shadow-[0_0_5px_#fafafa] 
+							hover:border-[#3363E7]
+							hover:text-gray-200
+							hover:shadow-lg"
+						href={Astro.props.href}
+						rel="noopener"
+						target="_blank" rel="noopener" target="_blank" download>
+						<Cv class="size-8"/> 
+					</a>
 				</li>
 			</ul> 
 		</CustomSection>
+		<CustomSection>
+			<h3 class="text-2xl relative text-gray-800 dark:text-white font-bold mb-10 text-center">
+				Tecnologías empleadas
+				<span class="block w-24 h-[2px] mt-4 bg-blue-600 m-auto"></span>
+			</h3>
+		</CustomSection>
 		<SliderTechnologies />
 		<CustomSection class="mt-20">
-			<h3 class="text-2xl relative text-gray-600 dark:text-white font-bold mb-10">
+			<h3 class="text-2xl relative text-gray-800 dark:text-white font-bold mb-10">
 				Experiencia laboral
-				<span class="absolute top-8 left-0 w-20 h-[2px] mt-2 bg-blue-600"></span>
+				<span class="absolute top-8 left-0 w-24 h-[2px] mt-2 bg-blue-600 -ml-2"></span>
 			</h3>
 			<TimeLine events={events} />
 		<CustomSection>
 		<CustomSection class="pt-14">
-			<h3 class="text-2xl relative text-gray-600 dark:text-white font-bold mb-8">
+			<h3 class="text-2xl relative text-gray-800 dark:text-white font-bold mb-8">
 				Ultimo Projecto
 				<span class="absolute top-8 left-0 w-20 h-[2px] mt-2 bg-blue-600"></span>
 			</h3>

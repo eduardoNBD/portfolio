@@ -22,5 +22,8 @@ export default {
 			'lg': '1440px',
 		},
 	},
+	variants: {
+		extend: {},
+	},
 	plugins: [],
 }

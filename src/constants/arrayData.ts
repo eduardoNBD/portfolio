@@ -11,6 +11,7 @@ export interface Project {
     description: Array<string>;
     technologies: Array<string>;
     type:number;
+    featured:number;
     url?:string;
 }
 
@@ -63,7 +64,8 @@ export const projects: Project[] = [
             "Laravel",
             "TailwindCSS", 
         ],
-        type: 0
+        type: 0,
+        featured: 1,
     },
     {
         title: 'Automatización de tareas con puppeteer', 
@@ -75,6 +77,7 @@ export const projects: Project[] = [
             "NodeJS", 
         ],
         type:1,
+        featured: 0,
         url: "https://github.com/eduardoNBD/puppeteerTodoist"
     },
     {
@@ -87,6 +90,8 @@ export const projects: Project[] = [
         technologies: [
             "React Native", 
         ],
-        type:0
+        type:0,
+        featured: 1,
+        url: "https://play.google.com/store/apps/details?id=com.mobilesail.mitaeats&hl=es&gl=US"
     },
 ]

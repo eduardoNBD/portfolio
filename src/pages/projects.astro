@@ -5,18 +5,28 @@ import ProjectsContent from '../components/ProjectsContent.astro';
 import {projects } from '../constants/arrayData';
 ---
 
-<Layout title="Eduardo E. Developer" route="/projects">
+<Layout 
+		title="Proyectos" 
+		route="/projects"
+		description='Proyectos más recientes y destacados. Cada uno de estos trabajos refleja mi compromiso con la innovación, la calidad y la excelencia en el desarrollo de soluciones tecnológicas.'>
 	<main class="px-8 md:px-4 pb-20"> 
 		<CustomSection>
-			<h1 class="text-gray-600 dark:text-white text-3xl md:text-5xl font-bold block pb-4 md:pb-10">Proyectos Destacados</h1>  
-			<h2 class="text-md sm:text-xl text-gray-600 dark:text-white ">
+			<h1 class="text-gray-800 dark:text-white text-5xl font-bold block pb-4 md:pb-10">Proyectos</h1>  
+			<h2 class="text-md sm:text-xl text-gray-800 dark:text-white ">
 				En esta sección, te presento una selección de mis proyectos más recientes y destacados. Cada uno de estos trabajos refleja mi compromiso con la innovación, la calidad y la excelencia en el desarrollo de soluciones tecnológicas.
 			</h2> 
 		</CustomSection>
         <CustomSection class="pt-14">
-			<h3 class="text-2xl relative text-gray-600 dark:text-white font-bold mb-8">
-				Projectos creados
-				<span class="absolute top-8 left-0 w-20 h-[2px] mt-2 bg-blue-600"></span>
+			<h3 class="text-2xl relative text-gray-800 dark:text-white font-bold mb-8">
+				Proyectos Destacados
+				<span class="absolute top-8 left-0 w-24 h-[2px] mt-2 bg-blue-600 -ml-2"></span>
+			</h3>
+			<ProjectsContent projects={projects.filter(element => element.featured )} />
+		</CustomSection>
+		<CustomSection class="pt-14">
+			<h3 class="text-2xl relative text-gray-800 dark:text-white font-bold mb-8">
+				Proyectos recientes
+				<span class="absolute top-8 left-0 w-24 h-[2px] mt-2 bg-blue-600 -ml-2"></span>
 			</h3>
 			<ProjectsContent projects={projects} />
 		</CustomSection>
