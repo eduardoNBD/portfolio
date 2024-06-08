@@ -20,6 +20,7 @@ export const POST: APIRoute = async ({ request }) => {
         pass: import.meta.env.MAIL_PASSWORD,
       },
       port: import.meta.env.MAIL_PORT, 
+      secure: false,
     });
 
     const emailResponse = await smtpTransport.sendMail({
@@ -35,7 +36,7 @@ export const POST: APIRoute = async ({ request }) => {
     );
   } catch (error) { 
     return new Response(
-      JSON.stringify({ status: 0, message: 'Hubo un error al enviar el correo electrónico ', error: JSON.stringify(error) }),
+      JSON.stringify({ status: 0, message: 'Hubo un error al enviar el correo electrónico ', error: JSON.stringify(error), imports: import.meta.env.MAIL_HOST+"-"+import.meta.env.MAIL_USERNAME+"-"+import.meta.env.MAIL_PASSWORD+"-"+import.meta.env.MAIL_PORT }),
       { status: 500 }
     );
   }
