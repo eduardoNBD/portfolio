@@ -8,6 +8,6 @@ export interface Props {
 const { color, size = 'text-xs', className } = Astro.props as Props;
 ---
  
-<span class={`bg-${color}-100 text-${color}-800 ${size} font-bold me-2 px-2.5 py-0.5 rounded dark:bg-${color}-900 dark:text-${color}-300 h-fit ${className}`}>
+<span class={`bg-${color}-100 text-${color}-800 ${size} font-bold me-2 px-2.5 py-0.5 rounded dark:bg-${color}-900 dark:text-${color}-300 h-fit ${className ?? ""}`}>
     <slot/>
 </span> 
