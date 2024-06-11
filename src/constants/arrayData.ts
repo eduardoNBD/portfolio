@@ -71,7 +71,7 @@ export const projects: Project[] = [
         title: 'Automatización de tareas con puppeteer', 
         img: "puppeteer.png",
         description: [
-            "App para prueba de automatización par agragar tareas de trello a todoist.", 
+            "App para prueba de automatización par agregar tareas de trello a todoist.", 
         ],
         technologies: [
             "NodeJS", 
