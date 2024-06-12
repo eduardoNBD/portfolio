@@ -1,0 +1,142 @@
+---
+import CustomSection from "../components/CustomSection.astro";
+import AI from "../components/icons/AI.astro";
+import Layout from "../layouts/Layout.astro";
+---
+
+<Layout
+    title="Eduardo E. Developer"
+    route="/chatai"
+    description="Valoro cada interacción y me esfuerzo por brindar una comunicación directa y personalizada. Ya sea que tengas una pregunta, una propuesta de colaboración, o simplemente quieras conocer más sobre mi trabajo, estoy aquí para ayudarte.">
+    <main class="px-8 md:px-4 pb-20">
+        <CustomSection>
+            <p class="py-5 text-gray-800 dark:text-white">Los mensajes se pueden guardar en tu explorador de internet por tiempo limitado, pero no son exportados a ningun lugar, si deseas guardar o importar tus preguntas, puedes hacerlos</p>
+            <button class="border px-4 py-1 rounded-sm transition text-gray-200 dark:text-gray-200 border-blue-900 dark:border-white bg-blue-900 dark:bg-[transparent] dark:hover:drop-shadow-[0_0_5px_#3363E7]  dark:hover:border-[#1e3a8a] hover:drop-shadow-[0_0_5px_#fafafa]  hover:border-[#3363E7] hover:text-gray-200 hover:shadow-lg">Importar</button> 
+            <button class="h-fit mb-2 shadow-lg font-bold px-4 py-1 rounded transition bg-blue-100 text-blue-800 hover:bg-blue-900 hover:text-blue-200  dark:bg-blue-900 dark:text-blue-300  dark:hover:bg-blue-100 dark:hover:text-blue-800">Exportar</button>
+            <div class="flex overflow-hidden rounded-lg h-[calc(100dvh-300px)] shadow-lg dark:shadow-[0_10px_15px_-3px_rgba(200,200,200,0.05)]">
+                <!-- Sidebar -->
+                <div class="w-1/4 border-r border-gray-300">
+                    <!-- Sidebar Header -->
+                    <header class="p-4 border-b border-gray-300 flex justify-between items-center bg-[#fafafa] dark:bg-blue-950 text-gray-800 dark:text-white">
+                        <h1 class="text-lg font-semibold">Preguntas</h1>
+                    </header>
+
+                    <!-- Contact List -->
+                    <div class="overflow-y-auto p-3 mb-9 pb-20">
+                        <div class="flex items-center mb-4 cursor-pointer hover:bg-gray-100 p-2 rounded-md">
+                            <div class="w-12 h-12 bg-gray-300 rounded-full mr-3">
+                                <AI class="w-12 h-12 rounded-full bg-blue-900" />
+                            </div>
+                            <div class="flex-1">
+                                <h2 class="text-gray-600 text-lg font-semibold">Alice</h2>
+                                <p class="text-gray-600">Hoorayy!!</p>
+                            </div>
+                        </div>         
+                    </div>
+                </div>
+
+                <!-- Main Chat Area -->
+                <div class="flex-1 relative">
+                    <!-- Chat Header -->
+                    <header class="p-4 bg-[#fafafa] dark:bg-blue-950 text-gray-800 dark:text-white border-b border-gray-300 ">
+                        <h1 class="text-lg font-semibold" id="name_user">Anonimo</h1>
+                    </header>
+
+                    <!-- Chat Messages -->
+                    <div class="overflow-y-auto p-4 h-[calc(100%-136px)] scroll-smooth" id="chatContent"> 
+                        
+                    </div>
+
+                    <!-- Chat Input -->
+                    <footer class="bg-[#fafafa] dark:bg-blue-950 border-t border-gray-300 p-4 absolute bottom-0 w-full">
+                        <div class="flex items-center">
+                            <input id="message" type="text" placeholder="Escribe tu pregunta.." class="w-full p-2 rounded-md border border-gray-400 focus:outline-none focus:border-blue-500"/>
+                            <button id="send" class="bg-blue-100 text-blue-800 hover:bg-blue-900 hover:text-blue-200  dark:bg-blue-900 dark:text-blue-300  dark:hover:bg-blue-100 dark:hover:text-blue-800 px-4 py-2 rounded-md ml-2" disabled>Enviar</button>
+                        </div>
+                    </footer>
+                </div>
+            </div>
+        </CustomSection>
+    </main>
+    <template id="outgoing"> 
+        <div class="flex justify-end mb-4 cursor-pointer">
+            <div class="flex max-w-96 bg-blue-500 text-white rounded-lg p-3 gap-3">
+                <p>
+                    Hi Alice! I'm good, just finished a great
+                    book. How about you?
+                </p>
+            </div>
+            <div class="w-9 h-9 rounded-full flex items-center justify-center ml-2">
+                <span class="w-8 h-8 rounded-full bg-blue-900 flex justify-center items-center">A</span>
+            </div>
+        </div> 
+    </template>
+
+    <template id="incoming"> 
+        <div class="flex mb-4 cursor-pointer">
+            <div class="w-9 h-9 rounded-full flex items-center justify-center mr-2">
+                <AI class="w-8 h-8 rounded-full bg-blue-900" />
+            </div>
+            <div class="flex max-w-96 bg-white rounded-lg p-3 gap-3">
+                <p class="text-gray-700"> Hey Bob, how's it going?</p>
+            </div>
+        </div>
+    </template>
+
+    <script type="module">
+        import {CreateMLCEngine} from "https://esm.run/@mlc-ai/web-llm";
+
+        const MODEL = 'gemma-2b-it-q4f32_1-MLC';
+        const $ = ele => document.querySelector(ele);
+        const message = $("#message");
+        const send = $("#send");
+        const chatContent = $("#chatContent");
+        const outTemplate = $("#outgoing");
+        const inTemplate = $("#incoming");
+
+        const engine = await CreateMLCEngine(
+            MODEL,
+            {
+                initProgrogressCallback: (info) =>{
+                    console.log(info);
+                }
+            }
+        );
+        message.addEventListener("keyup", () =>{
+            if(message.value.trim() != ""){
+                send.disabled = false;
+                console.log("false",send.disabled);
+            }else{
+                send.disabled = true;
+                console.log("true",send.disabled);
+            }
+        });
+
+        send.addEventListener("click", () =>{
+            send.disabled = true;
+
+            const text = message.value;
+            message.value = "";
+            console.log(text);
+
+            setOutgoingMsg(text);
+            setIncomingMsg(text) 
+
+            chatContent.scrollTop = chatContent.scrollHeight;
+        });
+
+        function setOutgoingMsg(message){
+            const cloneTemplate = outTemplate.content.cloneNode(true);
+
+            cloneTemplate.querySelector("p").textContent = message;
+
+            chatContent.appendChild(cloneTemplate);
+        }
+
+        function setIncomingMsg(message){
+            const cloneTemplate = inTemplate.content.cloneNode(true);
+            chatContent.appendChild(cloneTemplate);
+        }
+
+    </script>
+</Layout>

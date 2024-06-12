@@ -1,6 +1,5 @@
 import type { APIRoute } from 'astro';
-import { createTransport } from 'nodemailer';
-import { google } from 'googleapis'; 
+import { createTransport } from 'nodemailer'; 
 
 export const POST: APIRoute = async ({ request }) => {
   try {
@@ -11,39 +10,20 @@ export const POST: APIRoute = async ({ request }) => {
         JSON.stringify({ status: 0, message: 'Todos los campos son obligatorios' }),
         { status: 400 }
       );
-    }
-
-    const oauth2Client = new google.auth.OAuth2(
-      import.meta.env.GMAIL_CLIENT_ID,
-      import.meta.env.GMAIL_CLIENT_SECRET,
-      'https://developers.google.com/oauthplayground'
-    );
-
-    oauth2Client.setCredentials({
-      refresh_token: import.meta.env.GMAIL_REFRESH_TOKEN
-    });
-
-    const accessTokenResponse = await oauth2Client.getAccessToken();
-    const accessToken = accessTokenResponse.token;
-
-    if (!accessToken) {
-      throw new Error('No se pudo obtener el access token');
-    }
+    } 
+  
 
     const smtpTransport = createTransport({
-      service: 'gmail',
+      host: import.meta.env.SMTP_HOST,
+      port: import.meta.env.SMTP_PORT, 
       auth: {
-        type: 'OAuth2',
-        user: 'nbadtzdemort@gmail.com',
-        clientId: import.meta.env.GMAIL_CLIENT_ID,
-        clientSecret: import.meta.env.GMAIL_CLIENT_SECRET,
-        refreshToken: import.meta.env.GMAIL_REFRESH_TOKEN,
-        accessToken: accessToken,
+        user: import.meta.env.SMTP_USER, 
+        pass: import.meta.env.SMTP_PASSWORD,
       },
     });
 
     const emailResponse = await smtpTransport.sendMail({
-      from: 'nbadtzdemort@gmail.com',
+      from: import.meta.env.SMTP_USER,
       to: 'lalo_elma@hotmail.com',
       subject: `Nuevo mensaje de contacto: ${subject}`,
       text: `From: ${email} \nNombre: ${name}\nTeléfono: ${phone}\nCorreo: ${email}\nMensaje: ${message}`,
