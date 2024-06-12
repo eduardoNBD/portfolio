@@ -11,8 +11,7 @@ export const POST: APIRoute = async ({ request }) => {
         { status: 400 }
       );
     } 
-  
-
+    
     const smtpTransport = createTransport({
       host: import.meta.env.SMTP_HOST,
       port: import.meta.env.SMTP_PORT, 
