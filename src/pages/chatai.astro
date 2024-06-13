@@ -144,7 +144,7 @@ import Layout from "../layouts/Layout.astro";
                     initProgressCallback: (info) => {console.log(info)
                         let progressBar = Math.ceil(info.progress*100); 
  
-                        text_progress.innerHTML = "Espere mientras termina la carga<br>Cargando Modelo: "+progressBar+"%";
+                        text_progress.innerHTML = "Espere mientras termina la carga<br>Cargando Modelo: "+progressBar+"%<br>"+info.content;
                         progress.style.width = progressBar+"%";
                         progress.textContent = progressBar+"%";
 
