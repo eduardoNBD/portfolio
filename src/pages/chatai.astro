@@ -101,6 +101,7 @@ import Layout from "../layouts/Layout.astro";
 
     <script type="module">
         import { CreateWebWorkerMLCEngine } from "https://esm.run/@mlc-ai/web-llm";
+        
         let menuOpen = false;
         let currentQ = null;
         const MODEL = 'gemma-2b-it-q4f32_1-MLC';
@@ -158,6 +159,7 @@ import Layout from "../layouts/Layout.astro";
                     }
                 }
             );
+            text_progress.innerHTML = JSON.stringify(engine);
             message.addEventListener("change", () => {
                 if(message.value.trim() != ""){
                     send.disabled = false; 
