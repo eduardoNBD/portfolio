@@ -1,6 +1,9 @@
 ---
 import CustomSection from "../components/CustomSection.astro";
 import AI from "../components/icons/AI.astro";
+import Edit from "../components/icons/Edit.astro";
+import Menu from "../components/icons/Menu.astro";
+import Trash from "../components/icons/Trash.astro";
 import Layout from "../layouts/Layout.astro";
 ---
 
@@ -14,17 +17,19 @@ import Layout from "../layouts/Layout.astro";
             <button class="border px-4 py-1 rounded-sm transition text-gray-200 dark:text-gray-200 border-blue-900 dark:border-white bg-blue-900 dark:bg-[transparent] dark:hover:drop-shadow-[0_0_5px_#3363E7]  dark:hover:border-[#1e3a8a] hover:drop-shadow-[0_0_5px_#fafafa]  hover:border-[#3363E7] hover:text-gray-200 hover:shadow-lg">Importar</button> 
             <button id="export" class="h-fit mb-2 shadow-lg font-bold px-4 py-1 rounded transition bg-blue-100 text-blue-800 hover:bg-blue-900 hover:text-blue-200  dark:bg-blue-900 dark:text-blue-300  dark:hover:bg-blue-100 dark:hover:text-blue-800">Exportar</button>
             <div id="progress_Content">
-                <p id="text_progress"></p>
+                <p id="text_progress" class="text-gray-800 dark:text-gray-200"></p>
                 <div class="w-full bg-gray-200 rounded-full dark:bg-gray-700 mb-4">
                     <div id="progress" class="bg-emerald-600 text-xs font-medium text-emerald-100 text-center p-0.5 leading-none rounded-full h-4 transition" style="width:0"> 0%</div>
                 </div>
             </div>
-            <div class="flex overflow-hidden rounded-lg h-[calc(100dvh-300px)] shadow-lg dark:shadow-[0_10px_15px_-3px_rgba(200,200,200,0.05)]">
+            <div class="relative flex overflow-hidden rounded-lg h-[calc(100dvh-300px)] shadow-lg dark:shadow-[0_10px_15px_-3px_rgba(200,200,200,0.05)]">
                 <!-- Sidebar -->
-                <div class="w-1/4 border-r border-gray-300">
+                <div class="absolute h-screen top-0 left-[-177px] sm:block sm:static sm:w-1/4 border-r border-gray-300 z-20" id="questionsMenuContent">
                     <!-- Sidebar Header -->
                     <header class="p-4 border-b border-gray-300 flex justify-between items-center bg-[#fafafa] dark:bg-blue-950 text-gray-800 dark:text-white">
+                        <button class="menu"><Menu class="inline sm:hidden text-gray-800 dark:text-white w-6 h-6 mr-2"/></button>
                         <h1 class="text-lg font-semibold">Preguntas</h1>
+                        <button class="h-6 w-6 float-right" id="newQuestion"><Edit /></button>
                     </header>
 
                     <!-- Questions List -->
@@ -36,7 +41,8 @@ import Layout from "../layouts/Layout.astro";
                 <!-- Main Chat Area -->
                 <div class="flex-1 relative">
                     <!-- Chat Header -->
-                    <header class="p-4 bg-[#fafafa] dark:bg-blue-950 text-gray-800 dark:text-white border-b border-gray-300 ">
+                    <header class="p-4 bg-[#fafafa] dark:bg-blue-950 text-gray-800 dark:text-white border-b border-gray-300 flex">
+                        <button class="menu"><Menu class="inline sm:hidden text-gray-800 dark:text-white w-6 h-6 mr-2"/></button>
                         <h1 class="text-lg font-semibold" id="name_user">Anonimo</h1>
                     </header>
 
@@ -46,7 +52,7 @@ import Layout from "../layouts/Layout.astro";
                     </div>
 
                     <!-- Chat Input -->
-                    <footer class="bg-[#fafafa] dark:bg-blue-950 border-t border-gray-300 p-4 absolute bottom-0 w-full">
+                    <footer class="bg-[#fafafa] dark:bg-blue-950 border-t border-gray-300 p-4 absolute bottom-0 w-full z-20">
                         <div class="flex items-center">
                             <input id="message" type="text" placeholder="Escribe tu pregunta.." class="w-full p-2 rounded-md border border-gray-400 focus:outline-none focus:border-blue-500"/>
                             <button id="send" class="bg-blue-100 text-blue-800 hover:bg-blue-900 hover:text-blue-200  dark:bg-blue-900 dark:text-blue-300  dark:hover:bg-blue-100 dark:hover:text-blue-800 px-4 py-2 rounded-md ml-2" disabled>Enviar</button>
@@ -87,14 +93,15 @@ import Layout from "../layouts/Layout.astro";
                 <AI class="w-6 h-6 rounded-full bg-blue-900" />
             </div>
             <div class="flex-1">
-                <h2 class="text-gray-600 text-xs font-semibold h-12 overflow-hidden">Pregunta</h2> 
+                <h2 class="text-gray-600 dark:text-gray-200 text-xs font-semibold h-12 overflow-hidden">Pregunta</h2> 
             </div>
+            <button class="w-6 h-6"><Trash class="text-red-800 dark:text-red-400"/></button>
         </div>   
     </template>
 
     <script type="module">
-        import {CreateMLCEngine} from "https://esm.run/@mlc-ai/web-llm";
-
+        import { CreateWebWorkerMLCEngine } from "https://esm.run/@mlc-ai/web-llm";
+        let menuOpen = false;
         let currentQ = null;
         const MODEL = 'gemma-2b-it-q4f32_1-MLC';
         const $ = ele => document.querySelector(ele);
@@ -103,6 +110,7 @@ import Layout from "../layouts/Layout.astro";
         const chatContent = $("#chatContent");
         const questionConte = $("#questions");
         const exportBTN = $("#export");
+        const newQuestion = $("#newQuestion");
         const outTemplate = $("#outgoing");
         const inTemplate = $("#incoming");
         const askTemplate = $("#question");
@@ -111,43 +119,32 @@ import Layout from "../layouts/Layout.astro";
         const adapter = await navigator.gpu.requestAdapter(); 
         const allMessages = localStorage.getItem("messages") ? JSON.parse(localStorage.getItem("messages")) : [];
 
-        for (let index = 0; index < allMessages.length; index++) {
-            const cloneTemplate = askTemplate.content.cloneNode(true)
-            
-            cloneTemplate.querySelector("h2").textContent = allMessages[index][0].content;
-             
-            questionConte.appendChild(cloneTemplate);
-            
-        }
+        addEvents();
 
-        document.querySelectorAll(".item-question").forEach((questionItem,index) => {
-            questionItem.dataset.question = index;
-            questionItem.addEventListener("click", (event) => {
-                currentQ = event.currentTarget.dataset.question;
+        document.querySelectorAll(".menu").forEach(element => {
+            element.addEventListener("click", () => {
 
-                for (let index = 0; index < allMessages[currentQ].length; index++) {
-                    const element = allMessages[currentQ][index];
-
-                    if(element.role == "user"){
-                        setOutgoingMsg(element.content);
-                    }else{
-                        setIncomingMsg(element.content);
-                    } 
+                if(menuOpen){
+                    $("#questionsMenuContent").classList.add("left-[-177px]");
                 }
-
-                chatContent.scrollTop = chatContent.scrollHeight;
+                else{
+                    $("#questionsMenuContent").classList.remove("left-[-177px]");
+                }
+                
+                menuOpen = !menuOpen;
             });
         });
 
         if(adapter){
-            text_progress.textContent = "Inicio de Cargando de Modelo";
-            const engine = await CreateMLCEngine(
+            text_progress.textContent = "Inicio de cargado de modelo";
+            const engine = await CreateWebWorkerMLCEngine(
+                new Worker("./src/webworkers/loadLLM.js", {type: "module"}),
                 MODEL,
                 {
                     initProgressCallback: (info) => {console.log(info)
                         let progressBar = Math.ceil(info.progress*100); 
  
-                        text_progress.textContent = "Cargando Modelo: "+progressBar+"%";
+                        text_progress.innerHTML = "Espere mientras termina la carga<br>Cargando Modelo: "+progressBar+"%";
                         progress.style.width = progressBar+"%";
                         progress.textContent = progressBar+"%";
 
@@ -161,7 +158,7 @@ import Layout from "../layouts/Layout.astro";
                     }
                 }
             );
-            message.addEventListener("keyup", () => {
+            message.addEventListener("change", () => {
                 if(message.value.trim() != ""){
                     send.disabled = false; 
                 }else{
@@ -182,12 +179,12 @@ import Layout from "../layouts/Layout.astro";
 
                 const text = message.value;
                 message.value = ""; 
-
+                console.log(currentQ);
                 if(currentQ == null){
                     currentQ = allMessages.length;
                     const cloneTemplate = askTemplate.content.cloneNode(true)
                     
-                    cloneTemplate.querySelector("h2").textContent = text;console.log(allMessages.length);
+                    cloneTemplate.querySelector("h2").textContent = text;
 
                     questionConte.appendChild(cloneTemplate);
 
@@ -196,6 +193,7 @@ import Layout from "../layouts/Layout.astro";
                     document.querySelectorAll(".item-question")[currentQ].dataset.question = currentQ;
 
                     document.querySelectorAll(".item-question")[currentQ].addEventListener("click", (event) => {
+                        chatContent.innerHTML = "";
                         for (let index = 0; index < allMessages[currentQ].length; index++) {
                             const element = allMessages[currentQ][index];
 
@@ -208,6 +206,11 @@ import Layout from "../layouts/Layout.astro";
                             }
                         }
                         chatContent.scrollTop = chatContent.scrollHeight;
+                    });
+
+                    document.querySelectorAll(".item-question")[currentQ].querySelector("button").addEventListener("click", (event) => {
+                        event.stopPropagation();
+                        document.querySelectorAll(".item-question")[currentQ].remove();
                     });
 
                 }
@@ -238,6 +241,11 @@ import Layout from "../layouts/Layout.astro";
                 localStorage.setItem("messages", JSON.stringify(allMessages)); 
                  
             }); 
+
+            newQuestion.addEventListener("click", async () => {
+                currentQ = null;
+                chatContent.innerHTML = "";
+            });
         }else{
             $("#progress_Content").innerHTML = `
                     <div class="bg-red-100 dark:bg-red-900 border border-red-400 dark:border-red-800 text-red-700 dark:text-red-200 px-4 py-3 rounded relative" role="alert">
@@ -276,6 +284,47 @@ import Layout from "../layouts/Layout.astro";
                 a.click();
                 document.body.removeChild(a);
             } 
+        }
+
+        function addEvents(){
+            questionConte.innerHTML = "";
+
+            for (let index = 0; index < allMessages.length; index++) {
+                const cloneTemplate = askTemplate.content.cloneNode(true)
+                
+                cloneTemplate.querySelector("h2").textContent = allMessages[index][0].content;
+                
+                questionConte.appendChild(cloneTemplate);
+            }
+
+            document.querySelectorAll(".item-question").forEach((questionItem,index) => {
+                questionItem.dataset.question = index;
+                questionItem.addEventListener("click", (event) => {
+                    currentQ = event.currentTarget.dataset.question;
+                    
+                    chatContent.innerHTML = "";
+                    
+                    for (let index = 0; index < allMessages[currentQ].length; index++) {
+                        const element = allMessages[currentQ][index];
+
+                        if(element.role == "user"){
+                            setOutgoingMsg(element.content);
+                        }else{
+                            setIncomingMsg(element.content);
+                        } 
+                    }
+
+                    chatContent.scrollTop = chatContent.scrollHeight;
+                });
+                
+                questionItem.querySelector("button").addEventListener("click", (event) => {
+                    event.stopPropagation();
+                    allMessages.splice(questionItem.dataset.question,1);  
+                    localStorage.setItem("messages", JSON.stringify(allMessages)); 
+
+                    addEvents();
+                });
+            });
         }
     </script>
 </Layout>
