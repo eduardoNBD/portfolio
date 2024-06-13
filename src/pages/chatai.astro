@@ -12,7 +12,13 @@ import Layout from "../layouts/Layout.astro";
         <CustomSection>
             <p class="py-5 text-gray-800 dark:text-white">Los mensajes se pueden guardar en tu explorador de internet por tiempo limitado, pero no son exportados a ningun lugar, si deseas guardar o importar tus preguntas, puedes hacerlos</p>
             <button class="border px-4 py-1 rounded-sm transition text-gray-200 dark:text-gray-200 border-blue-900 dark:border-white bg-blue-900 dark:bg-[transparent] dark:hover:drop-shadow-[0_0_5px_#3363E7]  dark:hover:border-[#1e3a8a] hover:drop-shadow-[0_0_5px_#fafafa]  hover:border-[#3363E7] hover:text-gray-200 hover:shadow-lg">Importar</button> 
-            <button class="h-fit mb-2 shadow-lg font-bold px-4 py-1 rounded transition bg-blue-100 text-blue-800 hover:bg-blue-900 hover:text-blue-200  dark:bg-blue-900 dark:text-blue-300  dark:hover:bg-blue-100 dark:hover:text-blue-800">Exportar</button>
+            <button id="export" class="h-fit mb-2 shadow-lg font-bold px-4 py-1 rounded transition bg-blue-100 text-blue-800 hover:bg-blue-900 hover:text-blue-200  dark:bg-blue-900 dark:text-blue-300  dark:hover:bg-blue-100 dark:hover:text-blue-800">Exportar</button>
+            <div id="progress_Content">
+                <p id="text_progress"></p>
+                <div class="w-full bg-gray-200 rounded-full dark:bg-gray-700 mb-4">
+                    <div id="progress" class="bg-emerald-600 text-xs font-medium text-emerald-100 text-center p-0.5 leading-none rounded-full h-4 transition" style="width:0"> 0%</div>
+                </div>
+            </div>
             <div class="flex overflow-hidden rounded-lg h-[calc(100dvh-300px)] shadow-lg dark:shadow-[0_10px_15px_-3px_rgba(200,200,200,0.05)]">
                 <!-- Sidebar -->
                 <div class="w-1/4 border-r border-gray-300">
@@ -21,17 +27,9 @@ import Layout from "../layouts/Layout.astro";
                         <h1 class="text-lg font-semibold">Preguntas</h1>
                     </header>
 
-                    <!-- Contact List -->
-                    <div class="overflow-y-auto p-3 mb-9 pb-20">
-                        <div class="flex items-center mb-4 cursor-pointer hover:bg-gray-100 p-2 rounded-md">
-                            <div class="w-12 h-12 bg-gray-300 rounded-full mr-3">
-                                <AI class="w-12 h-12 rounded-full bg-blue-900" />
-                            </div>
-                            <div class="flex-1">
-                                <h2 class="text-gray-600 text-lg font-semibold">Alice</h2>
-                                <p class="text-gray-600">Hoorayy!!</p>
-                            </div>
-                        </div>         
+                    <!-- Questions List -->
+                    <div class="overflow-y-auto p-3 mb-9 pb-20" id="questions">
+                              
                     </div>
                 </div>
 
@@ -83,60 +81,201 @@ import Layout from "../layouts/Layout.astro";
         </div>
     </template>
 
+    <template id="question">    
+        <div class="flex items-center mb-4 cursor-pointer hover:bg-gray-100 p-2 rounded-md item-question">
+            <div class="w-6 h-6 bg-gray-300 rounded-full mr-3">
+                <AI class="w-6 h-6 rounded-full bg-blue-900" />
+            </div>
+            <div class="flex-1">
+                <h2 class="text-gray-600 text-xs font-semibold h-12 overflow-hidden">Pregunta</h2> 
+            </div>
+        </div>   
+    </template>
+
     <script type="module">
         import {CreateMLCEngine} from "https://esm.run/@mlc-ai/web-llm";
 
+        let currentQ = null;
         const MODEL = 'gemma-2b-it-q4f32_1-MLC';
         const $ = ele => document.querySelector(ele);
         const message = $("#message");
         const send = $("#send");
         const chatContent = $("#chatContent");
+        const questionConte = $("#questions");
+        const exportBTN = $("#export");
         const outTemplate = $("#outgoing");
         const inTemplate = $("#incoming");
+        const askTemplate = $("#question");
+        const text_progress = $("#text_progress");
+        const progress = $("#progress");
+        const adapter = await navigator.gpu.requestAdapter(); 
+        const allMessages = localStorage.getItem("messages") ? JSON.parse(localStorage.getItem("messages")) : [];
 
-        const engine = await CreateMLCEngine(
-            MODEL,
-            {
-                initProgrogressCallback: (info) =>{
-                    console.log(info);
+        for (let index = 0; index < allMessages.length; index++) {
+            const cloneTemplate = askTemplate.content.cloneNode(true)
+            
+            cloneTemplate.querySelector("h2").textContent = allMessages[index][0].content;
+             
+            questionConte.appendChild(cloneTemplate);
+            
+        }
+
+        document.querySelectorAll(".item-question").forEach((questionItem,index) => {
+            questionItem.dataset.question = index;
+            questionItem.addEventListener("click", (event) => {
+                currentQ = event.currentTarget.dataset.question;
+
+                for (let index = 0; index < allMessages[currentQ].length; index++) {
+                    const element = allMessages[currentQ][index];
+
+                    if(element.role == "user"){
+                        setOutgoingMsg(element.content);
+                    }else{
+                        setIncomingMsg(element.content);
+                    } 
                 }
-            }
-        );
-        message.addEventListener("keyup", () =>{
-            if(message.value.trim() != ""){
-                send.disabled = false;
-                console.log("false",send.disabled);
-            }else{
+
+                chatContent.scrollTop = chatContent.scrollHeight;
+            });
+        });
+
+        if(adapter){
+            text_progress.textContent = "Inicio de Cargando de Modelo";
+            const engine = await CreateMLCEngine(
+                MODEL,
+                {
+                    initProgressCallback: (info) => {console.log(info)
+                        let progressBar = Math.ceil(info.progress*100); 
+ 
+                        text_progress.textContent = "Cargando Modelo: "+progressBar+"%";
+                        progress.style.width = progressBar+"%";
+                        progress.textContent = progressBar+"%";
+
+                        if(progressBar >= 100){
+                            text_progress.textContent = "Modelo cargado, puedes inicar las preguntas";
+
+                            setTimeout(() => {
+                                $("#progress_Content").style.display = "none";
+                            }, 5000);
+                        }
+                    }
+                }
+            );
+            message.addEventListener("keyup", () => {
+                if(message.value.trim() != ""){
+                    send.disabled = false; 
+                }else{
+                    send.disabled = true; 
+                }
+            });
+            
+            exportBTN.onclick = exportQuestions;
+
+            document.addEventListener("keyup", (event) => {
+                if(event.code == "Enter"){
+                    send.click();
+                } 
+            });
+
+            send.addEventListener("click", async () => {
                 send.disabled = true;
-                console.log("true",send.disabled);
-            }
-        });
 
-        send.addEventListener("click", () =>{
-            send.disabled = true;
+                const text = message.value;
+                message.value = ""; 
 
-            const text = message.value;
-            message.value = "";
-            console.log(text);
+                if(currentQ == null){
+                    currentQ = allMessages.length;
+                    const cloneTemplate = askTemplate.content.cloneNode(true)
+                    
+                    cloneTemplate.querySelector("h2").textContent = text;console.log(allMessages.length);
 
-            setOutgoingMsg(text);
-            setIncomingMsg(text) 
+                    questionConte.appendChild(cloneTemplate);
 
-            chatContent.scrollTop = chatContent.scrollHeight;
-        });
+                    allMessages[currentQ] = [];
 
+                    document.querySelectorAll(".item-question")[currentQ].dataset.question = currentQ;
+
+                    document.querySelectorAll(".item-question")[currentQ].addEventListener("click", (event) => {
+                        for (let index = 0; index < allMessages[currentQ].length; index++) {
+                            const element = allMessages[currentQ][index];
+
+                            if(element.content != ""){
+                                if(element.role == "user"){
+                                    setOutgoingMsg(element.content);
+                                }else{
+                                    setIncomingMsg(element.content);
+                                } 
+                            }
+                        }
+                        chatContent.scrollTop = chatContent.scrollHeight;
+                    });
+
+                }
+
+                setOutgoingMsg(text);
+                chatContent.scrollTop = chatContent.scrollHeight;
+
+                const paragraph = setIncomingMsg("");
+
+                const userMessage = {
+                    role:'user',
+                    content: text
+                };
+
+                allMessages[currentQ].push(userMessage);
+
+                const chunks = await engine.chat.completions.create({messages:allMessages[currentQ], stream:true});
+                let replay = "";
+
+                for await (const chunk of chunks){
+                    replay += chunk.choices[0]?.delta?.content ?? "";
+                    paragraph.textContent = replay;
+                }
+
+                allMessages[currentQ].push({role:"assistant",content: replay});
+                chatContent.scrollTop = chatContent.scrollHeight;
+                 
+                localStorage.setItem("messages", JSON.stringify(allMessages)); 
+                 
+            }); 
+        }else{
+            $("#progress_Content").innerHTML = `
+                    <div class="bg-red-100 dark:bg-red-900 border border-red-400 dark:border-red-800 text-red-700 dark:text-red-200 px-4 py-3 rounded relative" role="alert">
+                        <strong class="font-bold">Error:</strong>
+                        <span class="block sm:inline"> Tu navegador no permite el uso de gpu para poder usar el modelo de IA</span>
+                    </div>`;
+        }
+        
         function setOutgoingMsg(message){
             const cloneTemplate = outTemplate.content.cloneNode(true);
 
             cloneTemplate.querySelector("p").textContent = message;
-
             chatContent.appendChild(cloneTemplate);
         }
 
         function setIncomingMsg(message){
             const cloneTemplate = inTemplate.content.cloneNode(true);
+            const paragraph = cloneTemplate.querySelector("p");
+            paragraph.textContent = message;
             chatContent.appendChild(cloneTemplate);
+
+            return paragraph;
         }
 
+        function exportQuestions(){
+            const text = localStorage.getItem("messages");
+
+            if(text){
+                const blob = new Blob([text], { type: 'text/plain' });
+
+                const a = document.createElement('a');
+                a.href = URL.createObjectURL(blob);
+                a.download = 'archivo.txt';
+ 
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+            } 
+        }
     </script>
 </Layout>
