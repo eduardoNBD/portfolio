@@ -66,6 +66,7 @@ export const projects: Project[] = [
         ],
         type: 0,
         featured: 1,
+        url:"https://github.com/eduardoNBD/adminDashboard_public"
     },
     {
         title: 'Automatización de tareas con puppeteer', 
