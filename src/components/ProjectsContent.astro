@@ -31,7 +31,7 @@ const { projects } = Astro.props as Props;
                                 <span class="text-xs bg-gray-600 rounded-lg px-2.5 py-0.5 italic">Privado</span>
                             }
                             {
-                                project.url && <a href={project.url} target="_blank" class="text-xs bg-gray-600 rounded-lg px-2.5 py-0.5">Ver proyecto</a>
+                                project.url && <a href={project.url} title="Ver proyecto" target="_blank" class="text-xs bg-gray-600 rounded-lg px-2.5 py-0.5">Ver proyecto</a>
                             }
                         </div>
                         {project.description.map(p => <p class="text-pretty text-sm sm:text-base font-normal text-gray-500 dark:text-gray-400 my-3 sm:pl-4">{p}</p>)}
