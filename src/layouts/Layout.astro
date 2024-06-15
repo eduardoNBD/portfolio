@@ -26,6 +26,7 @@ const { title, route, description,keywords} = Astro.props;
 		<meta property="og:image" content="/favicon/android-chrome-256x256.png">
 		<meta property="og:url" content={Astro.url}>
 		<meta property="og:type" content="website">
+		<link rel="canonical" href={Astro.url.toString().replace(route,"")} />
 		<link
 			rel="apple-touch-icon"
 			sizes="180x180"
