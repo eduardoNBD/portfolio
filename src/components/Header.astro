@@ -33,32 +33,32 @@ const { route } = Astro.props;
             <div id="main-menu" class="bg-[#F3F5F9] dark:bg-[#13151a] absolute sm:static z-20 items-center left-0 top-16 justify-between hidden w-full md:flex md:w-auto md:order-1 opacity-100 pointer-events-auto transition-all duration-300">
                 <ul class="flex flex-col mt-4 font-medium md:flex-row md:mt-0 md:space-x-8 rtl:space-x-reverse pb-4 mx-4">
                     <li class={`py-2.5 relative group ${route == "/" ? "text-blue-800" :" text-gray-600 dark:text-white hover:text-blue-800"} font-bold border-b-2 border-gray-500 sm:border-0`}>
-                        <a class="pl-4 py-2.5 px-2.5" href="/">
+                        <a class="pl-4 py-2.5 px-2.5" href="/" title="Inicio">
                             <span class={`absolute bottom-0 left-0 w-0 h-[1px] md:h-0.5 bg-gray-500 ${route == "/" ? "w-full" :"group-hover:w-full"} md:bg-blue-800 group-hover:transition-all`}></span>
                             Inicio
                         </a>
                     </li>  
                     <li class={`py-2.5 relative group ${route == "/projects" ? "text-blue-800" :" text-gray-600 dark:text-white hover:text-blue-800"} font-bold border-b-2 border-gray-500 sm:border-0`}>
-                        <a class="pl-4 py-2.5 px-2.5" href="/projects">
+                        <a class="pl-4 py-2.5 px-2.5" href="/projects" title="Proyectos">
                             <span class={`absolute bottom-0 left-0 w-0 h-[1px] md:h-0.5 bg-gray-500 ${route == "/projects" ? "w-full" : "group-hover:w-full"} md:bg-blue-800 group-hover:transition-all`}></span>
                             Proyectos
                         </a>
                     </li>
                     <!--<li class={`py-2.5 relative group ${route == "/chatai" ? "text-blue-800" :"hover:text-blue-800 text-gray-600 dark:text-white"} font-bold border-b-2 border-gray-500 sm:border-0`}>
-                        <a class="pl-4 py-2.5 px-2.5" href="/chatai">
+                        <a class="pl-4 py-2.5 px-2.5" href="/chatai" title="Chat AI">
                             <span class={`absolute bottom-0 left-0 w-0 h-[1px] md:h-0.5 bg-gray-500 ${route == "/chatai" ? "w-full" : "group-hover:w-full"} md:bg-blue-800 group-hover:transition-all`}></span>
                             Chat AI
                         </a>
                     </li> -->
 
                     <li class={`py-2.5 relative group ${route == "/skills" ? "text-blue-800" :"hover:text-blue-800 text-gray-600 dark:text-white"} font-bold border-b-2 border-gray-500 sm:border-0`}>
-                        <a class="pl-4 py-2.5 px-2.5" href="/skills">
+                        <a class="pl-4 py-2.5 px-2.5" href="/skills" title="Habilidades">
                             <span class={`absolute bottom-0 left-0 w-0 h-[1px] md:h-0.5 bg-gray-500 ${route == "/skills" ? "w-full" : "group-hover:w-full"} md:bg-blue-800 group-hover:transition-all`}></span>
                             Habilidades
                         </a>
                     </li>
                     <li class={`py-2.5 relative group ${route == "/contact" ? "text-blue-800" :"hover:text-blue-800 text-gray-600 dark:text-white"} font-bold border-b-2 border-gray-500 sm:border-0`}>
-                        <a class="pl-4 py-2.5 px-2.5" href="/contact">
+                        <a class="pl-4 py-2.5 px-2.5" href="/contact" title="Contacto">
                             <span class={`absolute bottom-0 left-0 w-0 h-[1px] md:h-0.5 bg-gray-500 ${route == "/contact" ? "w-full" : "group-hover:w-full"} md:bg-blue-800 group-hover:transition-all`}></span>
                             Contacto
                         </a>
