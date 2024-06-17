@@ -138,117 +138,6 @@ import Layout from "../layouts/Layout.astro";
         });
 
         if(adapter){
-            text_progress.textContent = "Inicio de cargado de modelo";
-            const engine = await CreateWebWorkerMLCEngine(
-                new Worker("./src/webworkers/loadLLM.js", {type: "module"}),
-                MODEL,
-                {
-                    initProgressCallback: (info) => {console.log(info)
-                        let progressBar = Math.ceil(info.progress*100); 
- 
-                        text_progress.innerHTML = "Espere mientras termina la carga<br>Cargando Modelo: "+progressBar+"%<br>"+info.content;
-                        progress.style.width = progressBar+"%";
-                        progress.textContent = progressBar+"%";
-
-                        if(progressBar >= 100){
-                            text_progress.textContent = "Modelo cargado, puedes inicar las preguntas";
-
-                            setTimeout(() => {
-                                $("#progress_Content").style.display = "none";
-                            }, 5000);
-                        }
-                    }
-                }
-            );
-            text_progress.innerHTML = JSON.stringify(engine);
-            message.addEventListener("change", () => {
-                if(message.value.trim() != ""){
-                    send.disabled = false; 
-                }else{
-                    send.disabled = true; 
-                }
-            });
-            
-            exportBTN.onclick = exportQuestions;
-
-            document.addEventListener("keyup", (event) => {
-                if(event.code == "Enter"){
-                    send.click();
-                } 
-            });
-
-            send.addEventListener("click", async () => {
-                send.disabled = true;
-
-                const text = message.value;
-                message.value = ""; 
-                console.log(currentQ);
-                if(currentQ == null){
-                    currentQ = allMessages.length;
-                    const cloneTemplate = askTemplate.content.cloneNode(true)
-                    
-                    cloneTemplate.querySelector("h2").textContent = text;
-
-                    questionConte.appendChild(cloneTemplate);
-
-                    allMessages[currentQ] = [];
-
-                    document.querySelectorAll(".item-question")[currentQ].dataset.question = currentQ;
-
-                    document.querySelectorAll(".item-question")[currentQ].addEventListener("click", (event) => {
-                        chatContent.innerHTML = "";
-                        for (let index = 0; index < allMessages[currentQ].length; index++) {
-                            const element = allMessages[currentQ][index];
-
-                            if(element.content != ""){
-                                if(element.role == "user"){
-                                    setOutgoingMsg(element.content);
-                                }else{
-                                    setIncomingMsg(element.content);
-                                } 
-                            }
-                        }
-                        chatContent.scrollTop = chatContent.scrollHeight;
-                    });
-
-                    document.querySelectorAll(".item-question")[currentQ].querySelector("button").addEventListener("click", (event) => {
-                        event.stopPropagation();
-                        document.querySelectorAll(".item-question")[currentQ].remove();
-                    });
-
-                }
-
-                setOutgoingMsg(text);
-                chatContent.scrollTop = chatContent.scrollHeight;
-
-                const paragraph = setIncomingMsg("");
-
-                const userMessage = {
-                    role:'user',
-                    content: text
-                };
-
-                allMessages[currentQ].push(userMessage);
-
-                const chunks = await engine.chat.completions.create({messages:allMessages[currentQ], stream:true});
-                let replay = "";
-
-                for await (const chunk of chunks){
-                    replay += chunk.choices[0]?.delta?.content ?? "";
-                    paragraph.textContent = replay;
-                }
-
-                allMessages[currentQ].push({role:"assistant",content: replay});
-                chatContent.scrollTop = chatContent.scrollHeight;
-                 
-                localStorage.setItem("messages", JSON.stringify(allMessages)); 
-                 
-            }); 
-
-            newQuestion.addEventListener("click", async () => {
-                currentQ = null;
-                chatContent.innerHTML = "";
-            });
         }else{
             $("#progress_Content").innerHTML = `
                     <div class="bg-red-100 dark:bg-red-900 border border-red-400 dark:border-red-800 text-red-700 dark:text-red-200 px-4 py-3 rounded relative" role="alert">
@@ -256,6 +145,118 @@ import Layout from "../layouts/Layout.astro";
                         <span class="block sm:inline"> Tu navegador no permite el uso de gpu para poder usar el modelo de IA</span>
                     </div>`;
         }
+        
+        text_progress.textContent = "Inicio de cargado de modelo";
+        const engine = await CreateWebWorkerMLCEngine(
+            new Worker("./src/webworkers/loadLLM.js", {type: "module"}),
+            MODEL,
+            {
+                initProgressCallback: (info) => {console.log(info)
+                    let progressBar = Math.ceil(info.progress*100); 
+
+                    text_progress.innerHTML = "Espere mientras termina la carga<br>Cargando Modelo: "+progressBar+"%<br>"+info.content;
+                    progress.style.width = progressBar+"%";
+                    progress.textContent = progressBar+"%";
+
+                    if(progressBar >= 100){
+                        text_progress.textContent = "Modelo cargado, puedes inicar las preguntas";
+
+                        setTimeout(() => {
+                            $("#progress_Content").style.display = "none";
+                        }, 5000);
+                    }
+                }
+            }
+        );
+        text_progress.innerHTML = JSON.stringify(engine);
+        message.addEventListener("change", () => {
+            if(message.value.trim() != ""){
+                send.disabled = false; 
+            }else{
+                send.disabled = true; 
+            }
+        });
+        
+        exportBTN.onclick = exportQuestions;
+
+        document.addEventListener("keyup", (event) => {
+            if(event.code == "Enter"){
+                send.click();
+            } 
+        });
+
+        send.addEventListener("click", async () => {
+            send.disabled = true;
+
+            const text = message.value;
+            message.value = ""; 
+            console.log(currentQ);
+            if(currentQ == null){
+                currentQ = allMessages.length;
+                const cloneTemplate = askTemplate.content.cloneNode(true)
+                
+                cloneTemplate.querySelector("h2").textContent = text;
+
+                questionConte.appendChild(cloneTemplate);
+
+                allMessages[currentQ] = [];
+
+                document.querySelectorAll(".item-question")[currentQ].dataset.question = currentQ;
+
+                document.querySelectorAll(".item-question")[currentQ].addEventListener("click", (event) => {
+                    chatContent.innerHTML = "";
+                    for (let index = 0; index < allMessages[currentQ].length; index++) {
+                        const element = allMessages[currentQ][index];
+
+                        if(element.content != ""){
+                            if(element.role == "user"){
+                                setOutgoingMsg(element.content);
+                            }else{
+                                setIncomingMsg(element.content);
+                            } 
+                        }
+                    }
+                    chatContent.scrollTop = chatContent.scrollHeight;
+                });
+
+                document.querySelectorAll(".item-question")[currentQ].querySelector("button").addEventListener("click", (event) => {
+                    event.stopPropagation();
+                    document.querySelectorAll(".item-question")[currentQ].remove();
+                });
+
+            }
+
+            setOutgoingMsg(text);
+            chatContent.scrollTop = chatContent.scrollHeight;
+
+            const paragraph = setIncomingMsg("");
+
+            const userMessage = {
+                role:'user',
+                content: text
+            };
+
+            allMessages[currentQ].push(userMessage);
+
+            const chunks = await engine.chat.completions.create({messages:allMessages[currentQ], stream:true});
+            let replay = "";
+
+            for await (const chunk of chunks){
+                replay += chunk.choices[0]?.delta?.content ?? "";
+                paragraph.textContent = replay;
+            }
+
+            allMessages[currentQ].push({role:"assistant",content: replay});
+            chatContent.scrollTop = chatContent.scrollHeight;
+                
+            localStorage.setItem("messages", JSON.stringify(allMessages)); 
+                
+        }); 
+
+        newQuestion.addEventListener("click", async () => {
+            currentQ = null;
+            chatContent.innerHTML = "";
+        });
         
         function setOutgoingMsg(message){
             const cloneTemplate = outTemplate.content.cloneNode(true);
