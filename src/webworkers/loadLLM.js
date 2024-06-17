@@ -7,5 +7,4 @@ const handler = new MLCEngineWorkerHandler(engine)
 onmessage = msg => {
     handler.onmessage(msg)
 }
-
-alert("init");
+ 
