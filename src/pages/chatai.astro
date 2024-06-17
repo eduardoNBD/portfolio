@@ -151,7 +151,7 @@ import Layout from "../layouts/Layout.astro";
             new Worker("./webworkers/loadLLM.js", {type: "module"}),
             MODEL,
             {
-                initProgressCallback: (info) => {console.log(info)
+                initProgressCallback: (info) => { 
                     let progressBar = Math.ceil(info.progress*100); 
 
                     text_progress.innerHTML = "Espere mientras termina la carga<br>Cargando Modelo: "+progressBar+"%<br>";
@@ -168,7 +168,7 @@ import Layout from "../layouts/Layout.astro";
                 }
             }
         );
-        text_progress.innerHTML = JSON.stringify(engine);
+         
         message.addEventListener("change", () => {
             if(message.value.trim() != ""){
                 send.disabled = false; 
@@ -190,7 +190,7 @@ import Layout from "../layouts/Layout.astro";
 
             const text = message.value;
             message.value = ""; 
-            console.log(currentQ);
+            
             if(currentQ == null){
                 currentQ = allMessages.length;
                 const cloneTemplate = askTemplate.content.cloneNode(true)
