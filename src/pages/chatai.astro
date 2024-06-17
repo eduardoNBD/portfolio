@@ -120,6 +120,7 @@ import Layout from "../layouts/Layout.astro";
         const progress = $("#progress");
         const adapter = await navigator.gpu.requestAdapter(); 
         const allMessages = localStorage.getItem("messages") ? JSON.parse(localStorage.getItem("messages")) : [];
+        const webWorker = new Worker("src/webworkers/loadLLM.js", {type: "module"});
 
         addEvents();
 
@@ -145,10 +146,10 @@ import Layout from "../layouts/Layout.astro";
                         <span class="block sm:inline"> Tu navegador no permite el uso de gpu para poder usar el modelo de IA</span>
                     </div>`;
         }
-        
+
         text_progress.textContent = "Inicio de cargado de modelo";
         const engine = await CreateWebWorkerMLCEngine(
-            new Worker("./src/webworkers/loadLLM.js", {type: "module"}),
+            webWorker,
             MODEL,
             {
                 initProgressCallback: (info) => {console.log(info)
