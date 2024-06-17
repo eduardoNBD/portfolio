@@ -25,7 +25,7 @@ import Layout from "../layouts/Layout.astro";
             </div>
             <div class="relative flex overflow-hidden rounded-lg h-[calc(100dvh-300px)] shadow-lg dark:shadow-[0_10px_15px_-3px_rgba(200,200,200,0.05)]">
                 <!-- Sidebar -->
-                <div class="absolute h-screen top-0 left-[-200px]  sm:static w-[200px] sm:w-1/4 border-r border-gray-300 z-20" id="questionsMenuContent">
+                <div class="absolute h-full top-0 left-[-200px]  sm:static w-[200px] sm:w-1/4 border-r border-gray-300 z-20 bg-[#F3F5F9] dark:bg-[#13151a]" id="questionsMenuContent">
                     <!-- Sidebar Header -->
                     <header class="p-4 border-b border-gray-300 flex justify-between items-center bg-[#fafafa] dark:bg-blue-950 text-gray-800 dark:text-white">
                         <button class="menu"><Menu class="inline sm:hidden text-gray-800 dark:text-white w-6 h-6 mr-2"/></button>
@@ -34,7 +34,7 @@ import Layout from "../layouts/Layout.astro";
                     </header>
 
                     <!-- Questions List -->
-                    <div class="overflow-y-auto p-3 mb-9 pb-20 bg-[#F3F5F9] dark:bg-[#13151a]" id="questions"> 
+                    <div class="overflow-y-auto p-3 mb-9 pb-20 h-[90%]" id="questions"> 
                     </div>
                 </div>
 
@@ -88,7 +88,7 @@ import Layout from "../layouts/Layout.astro";
     </template>
 
     <template id="question">    
-        <div class="flex items-center mb-4 cursor-pointer hover:bg-gray-100 p-2 rounded-md item-question">
+        <div class="flex items-center mb-4 cursor-pointer hover:bg-gray-100 dark:hover:bg-[#17255455] p-2 rounded-md item-question">
             <div class="w-6 h-6 bg-gray-300 rounded-full mr-3">
                 <AI class="w-6 h-6 rounded-full bg-blue-900" />
             </div>
