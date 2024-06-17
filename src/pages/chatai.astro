@@ -119,8 +119,7 @@ import Layout from "../layouts/Layout.astro";
         const text_progress = $("#text_progress");
         const progress = $("#progress");
         const adapter = await navigator.gpu.requestAdapter(); 
-        const allMessages = localStorage.getItem("messages") ? JSON.parse(localStorage.getItem("messages")) : [];
-        const webWorker = new Worker("./webworkers/loadLLM.js", {type: "module"});
+        const allMessages = localStorage.getItem("messages") ? JSON.parse(localStorage.getItem("messages")) : []; 
 
         addEvents();
 
@@ -149,7 +148,7 @@ import Layout from "../layouts/Layout.astro";
 
         text_progress.textContent = "Inicio de cargado de modelo";
         const engine = await CreateWebWorkerMLCEngine(
-            webWorker,
+            new Worker("./webworkers/loadLLM.js", {type: "module"}),
             MODEL,
             {
                 initProgressCallback: (info) => {console.log(info)
