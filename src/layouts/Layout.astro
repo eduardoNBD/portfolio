@@ -3,6 +3,7 @@ import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
 import "@fontsource-variable/onest";
 import "../styles/tailwind.css";
+import  SpeedInsights  from "@vercel/speed-insights/astro"
 
 interface Props {
 	title: string;
@@ -55,6 +56,7 @@ const { title, route, description,keywords} = Astro.props;
 		<title>{title}</title>
 	</head>
 	<body class="bg-[#F3F5F9] dark:bg-[#13151a]">
+		<SpeedInsights/>
 		<Header route={route} />
 		<slot />
 		<Footer />
